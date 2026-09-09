@@ -1,53 +1,49 @@
 // ============================================================
-//  CALCULATOR.JS - ฟังก์ชันคำนวณทั้งหมด
-//  ใช้ข้อมูลจาก sample-data.json เท่านั้น
+// CALCULATOR.JS - ระบบคำนวณเชิงกำหนด (Deterministic Calculation)
 // ============================================================
 
-// ---------- คำนวณค่าไฟต่อหน่วย (ใช้ข้อมูลจังหวัดจริง) ----------
-function calcAvgRate(bill, kwh, province, ratesData) {
-    if (kwh <= 0) return { avg: 0, rate: 0, provider: '-', diff: 0 };
-    
-    const avg = bill / kwh;
-    const rateInfo = ratesData?.[province] || { rate: 4.20, provider: 'กฟภ.' };
-    
-    return {
-        avg: Math.round(avg * 100) / 100,
-        rate: rateInfo.rate,
-        provider: rateInfo.provider,
-        diff: Math.round((avg - rateInfo.rate) * 100) / 100
-    };
+function calcAvgRate(bill, kwh) {
+    if (kwh <= 0) return 0;
+    return Math.round((bill / kwh) * 100) / 100;
 }
 
-// ---------- คำนวณการประหยัด (ใช้ข้อมูลจาก JSON) ----------
-function calculateSavings(bill, kwh, businessType, budget, appData) {
-    // ดึงข้อมูลจาก JSON
-    const bizData = appData?.businesses?.[businessType];
-    const carbonFactor = appData?.carbonFactors?.co2PerKwh || 0.5;
-    
-    // ค่าเริ่มต้น
+function calculateSavings(bill, businessType, budget) {
     let savingRate = 0.20;
-    let recommendation = "ปรับตั้งเวลาเปิด-ปิดเครื่องใช้ไฟฟ้า + เปลี่ยนหลอดไฟ LED";
-    let deviceType = "LED + Automation";
-    let options = ["LED", "Automation"];
+    let recommendation = "ปรับปรุงประสิทธิภาพการใช้พลังงานภายในอาคาร";
     
-    // ถ้ามีข้อมูลใน JSON ให้ใช้
-    if (bizData) {
-        savingRate = bizData.savingRate || savingRate;
-        recommendation = bizData.recommendation || recommendation;
-        deviceType = bizData.deviceType || deviceType;
-        options = bizData.options || options;
+    switch (businessType) {
+        case "โรงงาน":
+            savingRate = 0.30;
+            recommendation = "ติดตั้งระบบผลิตไฟฟ้าแสงอาทิตย์ร่วมกับอินเวอร์เตอร์และอุปกรณ์ปรับความเร็วรอบมอเตอร์ (VFD)";
+            break;
+        case "ร้านอาหาร":
+            savingRate = 0.20;
+            recommendation = "เปลี่ยนเครื่องปรับอากาศเป็นระบบอินเวอร์เตอร์และติดตั้งโซล่าเซลล์ขนาดเหมาะสม";
+            break;
+        case "โรงแรม":
+            savingRate = 0.22;
+            recommendation = "ติดตั้งระบบบริหารจัดการพลังงานอัจฉริยะ (BMS) และระบบโซล่าเซลล์";
+            break;
+        case "ห้างสรรพสินค้า":
+            savingRate = 0.25;
+            recommendation = "เปลี่ยนระบบแสงสว่างเป็นหลอด LED และติดตั้งระบบโซล่าเซลล์ขนาดใหญ่";
+            break;
+        case "สำนักงาน":
+        default:
+            savingRate = 0.20;
+            recommendation = "ปรับตั้งเวลาการทำงานระบบปรับอากาศและเปลี่ยนมาใช้หลอดไฟประหยัดพลังงาน";
+            break;
     }
-    
-    // คำนวณ
+
     const monthlySaving = bill * savingRate;
     const yearlySaving = monthlySaving * 12;
     const roi = budget > 0 ? (yearlySaving / budget) * 100 : 0;
     const paybackPeriod = monthlySaving > 0 ? budget / monthlySaving : 999;
-    
-    // Carbon (ใช้ kWh จริง)
-    const carbonPerYear = (kwh * 12 * carbonFactor) / 1000;
+
+    const kwhPerMonth = bill / 5; 
+    const carbonPerYear = (kwhPerMonth * 12 * 0.5) / 1000; // ตัน CO2 ต่อปี
     const carbonReduction = carbonPerYear * savingRate;
-    
+
     return {
         savingRate: Math.round(savingRate * 100),
         monthlySaving: Math.round(monthlySaving),
@@ -55,26 +51,21 @@ function calculateSavings(bill, kwh, businessType, budget, appData) {
         roi: Math.round(roi * 10) / 10,
         paybackPeriod: Math.round(paybackPeriod * 10) / 10,
         recommendation: recommendation,
-        deviceType: deviceType,
-        options: options,
         carbonReduction: Math.round(carbonReduction * 100) / 100,
         carbonCurrent: Math.round(carbonPerYear * 100) / 100
     };
 }
 
-// ---------- สร้างข้อมูลย้อนหลัง 12 เดือน ----------
 function generateHistoricalData(currentBill, months = 12) {
     const data = [];
+    // คำนวณแนวโน้มย้อนหลังแบบมีทิศทางคงที่ ไม่อาศัยการสุ่ม
     for (let i = 0; i < months; i++) {
-        const base = currentBill * (0.82 + (i / months) * 0.18);
-        const season = 1 + 0.08 * Math.sin((i + 3) * Math.PI / 6);
-        const variance = 1 + (Math.random() - 0.5) * 0.06;
-        data.push(Math.round(base * season * variance));
+        const factor = 0.85 + (i * 0.012);
+        data.push(Math.round(currentBill * factor));
     }
     return data;
 }
 
-// ---------- ทำนายค่าไฟล่วงหน้า (Linear Regression) ----------
 function predictFutureBill(historicalData, months = 6) {
     const n = historicalData.length;
     if (n < 2) return [];
@@ -97,68 +88,33 @@ function predictFutureBill(historicalData, months = 6) {
     return predictions;
 }
 
-// ---------- คำนวณเปอร์เซ็นต์เปลี่ยนแปลง ----------
 function calcPercentChange(current, previous) {
     if (previous === 0) return 0;
     return Math.round(((current - previous) / previous) * 100 * 10) / 10;
 }
 
-// ---------- สร้างข้อมูลการใช้ไฟรายชั่วโมง (จาก JSON) ----------
-function getHourlyUsageFromData(businessType, appData) {
-    const pattern = appData?.hourlyUsagePattern?.[businessType];
-    if (pattern && pattern.length === 24) {
-        return pattern;
-    }
-    // fallback: สร้างเอง
+function generateHourlyUsage(currentKwh) {
     const hours = [];
+    const baseHourPattern = [
+        10, 8, 8, 10, 15, 25, 40, 60, 75, 85, 90, 85, 
+        80, 85, 90, 95, 85, 70, 50, 40, 30, 20, 15, 12
+    ];
+    const totalPatternSum = baseHourPattern.reduce((a, b) => a + b, 0);
+    const dailyKwh = currentKwh / 30;
+
     for (let h = 0; h < 24; h++) {
-        let base = 0;
-        if (h >= 6 && h <= 8) base = 30;
-        else if (h >= 9 && h <= 12) base = 60;
-        else if (h >= 13 && h <= 17) base = 70;
-        else if (h >= 18 && h <= 21) base = 50;
-        else base = 15;
-        const variance = 1 + (Math.random() - 0.5) * 0.2;
-        hours.push(Math.round(base * variance));
+        const proportion = baseHourPattern[h] / totalPatternSum;
+        hours.push(Math.round(dailyKwh * proportion * 24));
     }
     return hours;
 }
 
-// ---------- ดึงอุปกรณ์แนะนำ (จาก JSON) ----------
-function getDeviceRecommendations(businessType, budget, bill, appData) {
-    const allDevices = appData?.deviceOptions || {};
-    const bizData = appData?.businesses?.[businessType];
-    
-    // แปลง object เป็น array
-    const deviceList = Object.entries(allDevices).map(([key, value]) => ({
-        id: key,
-        name: value.name || key,
-        cost: value.cost || 0,
-        saving: value.saving || 10,
-        payback: value.payback || 12,
-        desc: value.desc || ''
-    }));
-    
-    // ตัวเลือกที่แนะนำตามประเภทกิจการ
-    let recommended = bizData?.options || ["LED", "Automation", "Solar"];
-    
-    // กรองตามงบประมาณ และคำนวณตัวเลขจริง
-    const result = deviceList
-        .filter(d => recommended.includes(d.id) && d.cost <= budget * 0.8)
-        .map(d => ({
-            ...d,
-            monthlySaving: Math.round(bill * (d.saving / 100)),
-            payback: Math.round(d.cost / (bill * (d.saving / 100)))
-        }));
-    
-    // ถ้าไม่มีเลย ให้แสดง 3 ตัวเลือกแรก
-    if (result.length === 0) {
-        return deviceList.slice(0, 3).map(d => ({
-            ...d,
-            monthlySaving: Math.round(bill * (d.saving / 100)),
-            payback: Math.round(d.cost / (bill * (d.saving / 100)))
-        }));
-    }
-    
-    return result;
+function getBusinessExamples() {
+    return {
+        "ร้านอาหาร": { bill: 25000, kwh: 2500, budget: 200000 },
+        "สำนักงาน": { bill: 35000, kwh: 3500, budget: 300000 },
+        "โรงงาน": { bill: 120000, kwh: 12000, budget: 800000 },
+        "ห้างสรรพสินค้า": { bill: 80000, kwh: 8000, budget: 600000 },
+        "โรงแรม": { bill: 60000, kwh: 6000, budget: 500000 }
+    };
 }
