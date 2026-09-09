@@ -1,63 +1,53 @@
-function calcAvgRate(bill, kwh) {
-    if (kwh <= 0) return 0;
-    return Math.round((bill / kwh) * 100) / 100;
+// ============================================================
+//  CALCULATOR.JS - ฟังก์ชันคำนวณทั้งหมด
+//  ใช้ข้อมูลจาก sample-data.json เท่านั้น
+// ============================================================
+
+// ---------- คำนวณค่าไฟต่อหน่วย (ใช้ข้อมูลจังหวัดจริง) ----------
+function calcAvgRate(bill, kwh, province, ratesData) {
+    if (kwh <= 0) return { avg: 0, rate: 0, provider: '-', diff: 0 };
+    
+    const avg = bill / kwh;
+    const rateInfo = ratesData?.[province] || { rate: 4.20, provider: 'กฟภ.' };
+    
+    return {
+        avg: Math.round(avg * 100) / 100,
+        rate: rateInfo.rate,
+        provider: rateInfo.provider,
+        diff: Math.round((avg - rateInfo.rate) * 100) / 100
+    };
 }
 
+// ---------- คำนวณการประหยัด (ใช้ข้อมูลจาก JSON) ----------
 function calculateSavings(bill, kwh, businessType, budget, appData) {
+    // ดึงข้อมูลจาก JSON
+    const bizData = appData?.businesses?.[businessType];
+    const carbonFactor = appData?.carbonFactors?.co2PerKwh || 0.5;
+    
+    // ค่าเริ่มต้น
     let savingRate = 0.20;
     let recommendation = "ปรับตั้งเวลาเปิด-ปิดเครื่องใช้ไฟฟ้า + เปลี่ยนหลอดไฟ LED";
     let deviceType = "LED + Automation";
     let options = ["LED", "Automation"];
-
-    if (appData && appData.businesses && appData.businesses[businessType]) {
-        const biz = appData.businesses[businessType];
-        if (biz.savingRate) savingRate = biz.savingRate;
-        if (biz.recommendation) recommendation = biz.recommendation;
-        if (biz.deviceType) deviceType = biz.deviceType;
-        if (biz.options) options = biz.options;
-    } else {
-        switch (businessType) {
-            case "โรงงาน":
-                savingRate = 0.30;
-                recommendation = "ติดตั้ง Solar ขนาด 50kW + เปลี่ยนมอเตอร์เป็น Inverter + ติดตั้ง VFD";
-                deviceType = "Solar + Inverter + VFD";
-                options = ["Solar", "Inverter", "VFD", "PFC"];
-                break;
-            case "ร้านอาหาร":
-                savingRate = 0.20;
-                recommendation = "เปลี่ยนแอร์เป็น Inverter + ติดตั้ง Solar ขนาด 10kW";
-                deviceType = "Inverter + Solar";
-                options = ["Inverter", "Solar", "LED"];
-                break;
-            case "โรงแรม":
-                savingRate = 0.22;
-                recommendation = "ติดตั้งระบบ BMS + เปลี่ยนแอร์เป็น Inverter + Solar ขนาด 20kW";
-                deviceType = "BMS + Inverter + Solar";
-                options = ["BMS", "Inverter", "Solar", "LED"];
-                break;
-            case "ห้างสรรพสินค้า":
-                savingRate = 0.25;
-                recommendation = "เปลี่ยนหลอดไฟ LED + ตั้งเวลาเปิด-ปิด + Solar ขนาด 30kW";
-                deviceType = "LED + Automation + Solar";
-                options = ["LED", "Automation", "Solar", "BESS"];
-                break;
-            default:
-                savingRate = 0.20;
-                recommendation = "ปรับตั้งเวลาเปิด-ปิดเครื่องใช้ไฟฟ้า + เปลี่ยนหลอดไฟ LED";
-                deviceType = "LED + Automation";
-                options = ["LED", "Automation"];
-        }
+    
+    // ถ้ามีข้อมูลใน JSON ให้ใช้
+    if (bizData) {
+        savingRate = bizData.savingRate || savingRate;
+        recommendation = bizData.recommendation || recommendation;
+        deviceType = bizData.deviceType || deviceType;
+        options = bizData.options || options;
     }
-
+    
+    // คำนวณ
     const monthlySaving = bill * savingRate;
     const yearlySaving = monthlySaving * 12;
     const roi = budget > 0 ? (yearlySaving / budget) * 100 : 0;
     const paybackPeriod = monthlySaving > 0 ? budget / monthlySaving : 999;
-
-    const carbonFactor = appData?.carbonFactors?.co2PerKwh || 0.5;
-    const carbonPerYear = kwh * 12 * carbonFactor / 1000;
+    
+    // Carbon (ใช้ kWh จริง)
+    const carbonPerYear = (kwh * 12 * carbonFactor) / 1000;
     const carbonReduction = carbonPerYear * savingRate;
-
+    
     return {
         savingRate: Math.round(savingRate * 100),
         monthlySaving: Math.round(monthlySaving),
@@ -72,6 +62,7 @@ function calculateSavings(bill, kwh, businessType, budget, appData) {
     };
 }
 
+// ---------- สร้างข้อมูลย้อนหลัง 12 เดือน ----------
 function generateHistoricalData(currentBill, months = 12) {
     const data = [];
     for (let i = 0; i < months; i++) {
@@ -83,14 +74,12 @@ function generateHistoricalData(currentBill, months = 12) {
     return data;
 }
 
+// ---------- ทำนายค่าไฟล่วงหน้า (Linear Regression) ----------
 function predictFutureBill(historicalData, months = 6) {
     const n = historicalData.length;
     if (n < 2) return [];
 
-    let sumX = 0,
-        sumY = 0,
-        sumXY = 0,
-        sumX2 = 0;
+    let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
     for (let i = 0; i < n; i++) {
         sumX += i;
         sumY += historicalData[i];
@@ -108,12 +97,19 @@ function predictFutureBill(historicalData, months = 6) {
     return predictions;
 }
 
+// ---------- คำนวณเปอร์เซ็นต์เปลี่ยนแปลง ----------
 function calcPercentChange(current, previous) {
     if (previous === 0) return 0;
     return Math.round(((current - previous) / previous) * 100 * 10) / 10;
 }
 
-function generateHourlyUsage() {
+// ---------- สร้างข้อมูลการใช้ไฟรายชั่วโมง (จาก JSON) ----------
+function getHourlyUsageFromData(businessType, appData) {
+    const pattern = appData?.hourlyUsagePattern?.[businessType];
+    if (pattern && pattern.length === 24) {
+        return pattern;
+    }
+    // fallback: สร้างเอง
     const hours = [];
     for (let h = 0; h < 24; h++) {
         let base = 0;
@@ -128,42 +124,25 @@ function generateHourlyUsage() {
     return hours;
 }
 
+// ---------- ดึงอุปกรณ์แนะนำ (จาก JSON) ----------
 function getDeviceRecommendations(businessType, budget, bill, appData) {
     const allDevices = appData?.deviceOptions || {};
-
+    const bizData = appData?.businesses?.[businessType];
+    
+    // แปลง object เป็น array
     const deviceList = Object.entries(allDevices).map(([key, value]) => ({
         id: key,
         name: value.name || key,
-        icon: value.icon || '',
         cost: value.cost || 0,
         saving: value.saving || 10,
         payback: value.payback || 12,
         desc: value.desc || ''
     }));
-
-    let recommended = [];
-    const bizData = appData?.businesses?.[businessType];
-    if (bizData && bizData.options) {
-        recommended = bizData.options;
-    } else {
-        switch (businessType) {
-            case "โรงงาน":
-                recommended = ["Solar", "VFD", "PFC", "LED"];
-                break;
-            case "ร้านอาหาร":
-                recommended = ["LED", "Inverter", "Solar"];
-                break;
-            case "โรงแรม":
-                recommended = ["LED", "Inverter", "BMS", "Solar"];
-                break;
-            case "ห้างสรรพสินค้า":
-                recommended = ["LED", "Inverter", "BMS", "Solar", "BESS"];
-                break;
-            default:
-                recommended = ["LED", "Inverter", "Automation", "Solar"];
-        }
-    }
-
+    
+    // ตัวเลือกที่แนะนำตามประเภทกิจการ
+    let recommended = bizData?.options || ["LED", "Automation", "Solar"];
+    
+    // กรองตามงบประมาณ และคำนวณตัวเลขจริง
     const result = deviceList
         .filter(d => recommended.includes(d.id) && d.cost <= budget * 0.8)
         .map(d => ({
@@ -171,10 +150,15 @@ function getDeviceRecommendations(businessType, budget, bill, appData) {
             monthlySaving: Math.round(bill * (d.saving / 100)),
             payback: Math.round(d.cost / (bill * (d.saving / 100)))
         }));
-
-    return result.length > 0 ? result : deviceList.slice(0, 3).map(d => ({
-        ...d,
-        monthlySaving: Math.round(bill * (d.saving / 100)),
-        payback: Math.round(d.cost / (bill * (d.saving / 100)))
-    }));
+    
+    // ถ้าไม่มีเลย ให้แสดง 3 ตัวเลือกแรก
+    if (result.length === 0) {
+        return deviceList.slice(0, 3).map(d => ({
+            ...d,
+            monthlySaving: Math.round(bill * (d.saving / 100)),
+            payback: Math.round(d.cost / (bill * (d.saving / 100)))
+        }));
+    }
+    
+    return result;
 }
