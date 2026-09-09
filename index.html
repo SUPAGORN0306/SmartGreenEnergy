@@ -1,36 +1,1200 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Green Energy - หน้าแรก</title>
-    <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SmartGreenEnergy — วิเคราะห์และแนะนำพลังงานด้วย AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@400;500;600;700&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+    <style>
+        /* ============================================================
+           STYLE  —  Inspired by "แสงตรง" (Earth tone + Serif)
+           ============================================================ */
+
+        :root {
+            --ink: #0F2118;
+            --ink-2: #15301F;
+            --ink-3: #1D3D28;
+            --paper: #FBF7EC;
+            --paper-2: #F2ECDC;
+            --gold: #E3A542;
+            --gold-deep: #B9791E;
+            --teal: #3E7C82;
+            --teal-2: #2C5D62;
+            --sage: #8AA48D;
+            --line-dark: rgba(243, 239, 226, 0.14);
+            --line-light: rgba(23, 36, 27, 0.12);
+            --text-on-dark: #F3EFE2;
+            --text-muted-dark: #B7C4B6;
+            --text-on-light: #17241B;
+            --text-muted-light: #5B6B5C;
+            --radius-s: 4px;
+            --radius-m: 10px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--text-on-light);
+            font-family: 'IBM Plex Sans Thai', sans-serif;
+            font-weight: 400;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        h1,
+        h2,
+        h3,
+        .serif {
+            font-family: 'Noto Serif Thai', serif;
+            margin: 0;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+        }
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+        img,
+        svg {
+            display: block;
+            max-width: 100%;
+        }
+        .wrap {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 28px;
+        }
+        button {
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        /* ---------- BUTTONS ---------- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 13px 26px;
+            border-radius: 999px;
+            border: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: transform .18s ease, background .18s ease;
+        }
+        .btn:active {
+            transform: scale(0.97);
+        }
+        .btn-gold {
+            background: var(--gold);
+            color: #221503;
+        }
+        .btn-gold:hover {
+            background: #EFB763;
+        }
+        .btn-outline-dark {
+            background: transparent;
+            border: 1px solid var(--line-dark);
+            color: var(--text-on-dark);
+        }
+        .btn-outline-dark:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+        .btn-outline-light {
+            background: transparent;
+            border: 1px solid var(--line-light);
+            color: var(--text-on-light);
+        }
+        .btn-outline-light:hover {
+            border-color: var(--teal);
+            color: var(--teal-2);
+        }
+        .btn-ink {
+            background: var(--ink);
+            color: var(--text-on-dark);
+        }
+        .btn-ink:hover {
+            background: var(--ink-3);
+        }
+
+        /* ---------- EYEBROW ---------- */
+        .eyebrow {
+            font-size: 14px;
+            color: var(--gold);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+        .eyebrow::before {
+            content: '';
+            width: 16px;
+            height: 1px;
+            background: var(--gold);
+            display: inline-block;
+        }
+
+        /* ---------- NAV ---------- */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(15, 33, 24, 0.92);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--line-dark);
+        }
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 0;
+            color: var(--text-on-dark);
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Noto Serif Thai', serif;
+            font-size: 21px;
+            font-weight: 600;
+        }
+        .brand svg {
+            width: 24px;
+            height: 24px;
+        }
+        .navlinks {
+            display: flex;
+            gap: 34px;
+            font-size: 15px;
+            color: var(--text-muted-dark);
+        }
+        .navlinks a:hover {
+            color: var(--text-on-dark);
+        }
+        .navcta {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+        @media (max-width: 860px) {
+            .navlinks {
+                display: none;
+            }
+        }
+
+        /* ---------- HERO ---------- */
+        .hero {
+            background: radial-gradient(1100px 620px at 78% -10%, #23472F 0%, var(--ink-2) 46%, var(--ink) 78%);
+            color: var(--text-on-dark);
+            padding: 88px 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            gap: 56px;
+            align-items: center;
+            padding-bottom: 70px;
+        }
+        .hero h1 {
+            font-size: 52px;
+            line-height: 1.15;
+            letter-spacing: 0;
+        }
+        .hero p.lede {
+            color: var(--text-muted-dark);
+            font-size: 17px;
+            max-width: 46ch;
+            margin: 22px 0 32px;
+        }
+        .hero-ctas {
+            display: flex;
+            gap: 14px;
+            margin-bottom: 36px;
+            flex-wrap: wrap;
+        }
+        .hero-stats {
+            display: flex;
+            gap: 34px;
+            padding-top: 26px;
+            border-top: 1px solid var(--line-dark);
+        }
+        .hero-stats div {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .hero-stats b {
+            font-family: 'Noto Serif Thai', serif;
+            font-size: 26px;
+            font-weight: 600;
+        }
+        .hero-stats span {
+            font-size: 13px;
+            color: var(--text-muted-dark);
+        }
+
+        /* Mini Calculator Card */
+        .mini-card {
+            background: var(--paper);
+            color: var(--text-on-light);
+            border-radius: var(--radius-m);
+            padding: 28px;
+            box-shadow: 0 30px 70px -20px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        .mini-card h3 {
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+        .mini-card .sub {
+            font-size: 13px;
+            color: var(--text-muted-light);
+            margin-bottom: 20px;
+        }
+        .field {
+            margin-bottom: 14px;
+        }
+        .field label {
+            display: block;
+            font-size: 12.5px;
+            color: var(--text-muted-light);
+            margin-bottom: 6px;
+        }
+        .field input,
+        .field select {
+            width: 100%;
+            padding: 11px 13px;
+            border-radius: var(--radius-s);
+            border: 1px solid rgba(23, 36, 27, 0.16);
+            font-size: 15px;
+            font-family: inherit;
+            background: #fff;
+            color: var(--text-on-light);
+        }
+        .field input:focus,
+        .field select:focus {
+            outline: 2px solid var(--teal);
+            outline-offset: 1px;
+        }
+        .mini-result {
+            margin-top: 18px;
+            padding-top: 18px;
+            border-top: 1px dashed rgba(23, 36, 27, 0.18);
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+        }
+        .mini-result .item b {
+            display: block;
+            font-family: 'Noto Serif Thai', serif;
+            font-size: 22px;
+        }
+        .mini-result .item span {
+            font-size: 12px;
+            color: var(--text-muted-light);
+        }
+        .mini-result .item.save b {
+            color: var(--teal-2);
+        }
+
+        .hero-bg-mark {
+            position: absolute;
+            right: -120px;
+            top: 60px;
+            width: 520px;
+            height: 520px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(227, 165, 66, 0.28) 0%, rgba(227, 165, 66, 0) 68%);
+            pointer-events: none;
+        }
+        .band {
+            height: 6px;
+            background: linear-gradient(90deg, var(--teal-2), var(--sage), var(--gold));
+        }
+
+        /* ---------- SECTION GENERIC ---------- */
+        section {
+            padding: 96px 0;
+        }
+        .section-head {
+            max-width: 640px;
+            margin-bottom: 56px;
+        }
+        .section-head h2 {
+            font-size: 36px;
+            line-height: 1.25;
+        }
+        .section-head p {
+            color: var(--text-muted-light);
+            font-size: 16px;
+            margin-top: 14px;
+        }
+
+        /* ---------- PROCESS ---------- */
+        .process {
+            background: var(--paper-2);
+        }
+        .steps {
+            display: flex;
+            flex-direction: column;
+        }
+        .step {
+            display: grid;
+            grid-template-columns: 64px 1fr 1.1fr;
+            gap: 28px;
+            padding: 34px 0;
+            border-top: 1px solid var(--line-light);
+            align-items: start;
+        }
+        .step:last-child {
+            border-bottom: 1px solid var(--line-light);
+        }
+        .step-num {
+            font-family: 'Noto Serif Thai', serif;
+            font-size: 30px;
+            color: var(--gold-deep);
+        }
+        .step h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .step .desc {
+            color: var(--text-muted-light);
+            font-size: 15px;
+        }
+        .step .detail {
+            background: #fff;
+            border: 1px solid var(--line-light);
+            border-radius: var(--radius-m);
+            padding: 16px 18px;
+            font-size: 13.5px;
+            color: var(--text-muted-light);
+        }
+        .step .detail b {
+            color: var(--text-on-light);
+            font-weight: 600;
+        }
+        @media (max-width: 760px) {
+            .step {
+                grid-template-columns: 44px 1fr;
+            }
+            .step .detail {
+                grid-column: 1/-1;
+            }
+        }
+
+        /* ---------- ANALYZER ---------- */
+        .analyzer {
+            background: var(--ink);
+            color: var(--text-on-dark);
+        }
+        .analyzer .section-head p {
+            color: var(--text-muted-dark);
+        }
+        .analyzer-grid {
+            display: grid;
+            grid-template-columns: 0.85fr 1.15fr;
+            gap: 0;
+            border: 1px solid var(--line-dark);
+            border-radius: var(--radius-m);
+            overflow: hidden;
+        }
+        .panel-form {
+            background: var(--ink-2);
+            padding: 34px;
+        }
+        .panel-form h3 {
+            font-size: 18px;
+            margin-bottom: 22px;
+        }
+        .panel-form .field label {
+            color: var(--text-muted-dark);
+        }
+        .panel-form .field input,
+        .panel-form .field select {
+            background: var(--ink);
+            border: 1px solid var(--line-dark);
+            color: var(--text-on-dark);
+        }
+        .panel-form .field input:focus,
+        .panel-form .field select:focus {
+            outline-color: var(--gold);
+        }
+        .row2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .panel-results {
+            padding: 34px;
+            background: var(--paper);
+            color: var(--text-on-light);
+        }
+        .kpi-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin-bottom: 26px;
+        }
+        .kpi {
+            border: 1px solid var(--line-light);
+            border-radius: var(--radius-s);
+            padding: 14px 14px;
+        }
+        .kpi span {
+            font-size: 12px;
+            color: var(--text-muted-light);
+            display: block;
+            margin-bottom: 6px;
+        }
+        .kpi b {
+            font-family: 'Noto Serif Thai', serif;
+            font-size: 21px;
+        }
+        .kpi.highlight {
+            border-color: var(--teal);
+            background: rgba(62, 124, 130, 0.06);
+        }
+        .charts-2 {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 22px;
+            margin-top: 8px;
+        }
+        .chart-box {
+            border: 1px solid var(--line-light);
+            border-radius: var(--radius-s);
+            padding: 16px;
+        }
+        .chart-box h4 {
+            font-size: 13.5px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-muted-light);
+        }
+        .note {
+            font-size: 12px;
+            color: var(--text-muted-light);
+            margin-top: 18px;
+        }
+        @media (max-width: 900px) {
+            .analyzer-grid {
+                grid-template-columns: 1fr;
+            }
+            .kpi-row {
+                grid-template-columns: 1fr 1fr;
+            }
+            .charts-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ---------- WHY US ---------- */
+        .why {}
+        .qa-list {
+            border-top: 1px solid var(--line-light);
+        }
+        .qa {
+            display: grid;
+            grid-template-columns: 0.9fr 1.6fr;
+            gap: 36px;
+            padding: 30px 0;
+            border-bottom: 1px solid var(--line-light);
+        }
+        .qa .q {
+            font-size: 16.5px;
+            color: var(--text-muted-light);
+        }
+        .qa .a {
+            font-size: 15.5px;
+        }
+        .qa .a b {
+            color: var(--teal-2);
+        }
+        @media (max-width: 760px) {
+            .qa {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+        }
+
+        /* ---------- PRICING ---------- */
+        .pricing {
+            background: var(--paper-2);
+        }
+        .price-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+        .price-card {
+            background: #fff;
+            border: 1px solid var(--line-light);
+            border-radius: var(--radius-m);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+        .price-card.mid {
+            border-color: var(--teal);
+            box-shadow: 0 20px 40px -24px rgba(44, 93, 98, 0.35);
+        }
+        .price-card h3 {
+            font-size: 18px;
+        }
+        .price-card .amount {
+            font-family: 'Noto Serif Thai', serif;
+            font-size: 34px;
+            margin: 14px 0 6px;
+        }
+        .price-card .amount span {
+            font-size: 14px;
+            font-family: 'IBM Plex Sans Thai', sans-serif;
+            color: var(--text-muted-light);
+        }
+        .price-card ul {
+            list-style: none;
+            margin: 22px 0 26px;
+            padding: 0;
+            flex: 1;
+        }
+        .price-card li {
+            font-size: 14px;
+            color: var(--text-muted-light);
+            padding: 9px 0;
+            border-top: 1px solid var(--line-light);
+        }
+        .price-card li:first-child {
+            border-top: none;
+        }
+        @media (max-width: 900px) {
+            .price-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ---------- FOOTER ---------- */
+        footer {
+            background: var(--ink);
+            color: var(--text-muted-dark);
+            padding: 56px 0 34px;
+        }
+        .foot-grid {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+            padding-bottom: 34px;
+            border-bottom: 1px solid var(--line-dark);
+        }
+        .foot-brand {
+            font-family: 'Noto Serif Thai', serif;
+            color: var(--text-on-dark);
+            font-size: 19px;
+        }
+        .foot-cols {
+            display: flex;
+            gap: 64px;
+        }
+        .foot-cols h5 {
+            color: var(--text-on-dark);
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .foot-cols a {
+            display: block;
+            font-size: 14px;
+            padding: 5px 0;
+            color: var(--text-muted-dark);
+        }
+        .foot-bottom {
+            padding-top: 22px;
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 900px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero h1 {
+                font-size: 38px;
+            }
+            .hero-bg-mark {
+                display: none;
+            }
+        }
+
+        /* ---------- ANIMATION ---------- */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(14px);
+            animation: fadeUp .7s ease forwards;
+        }
+        .fade-up.d1 {
+            animation-delay: .05s;
+        }
+        .fade-up.d2 {
+            animation-delay: .16s;
+        }
+        .fade-up.d3 {
+            animation-delay: .27s;
+        }
+        .fade-up.d4 {
+            animation-delay: .38s;
+        }
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .fade-up {
+                animation: none;
+                opacity: 1;
+                transform: none;
+            }
+            html {
+                scroll-behavior: auto;
+            }
+        }
+        :focus-visible {
+            outline: 2px solid var(--gold);
+            outline-offset: 2px;
+        }
+    </style>
 </head>
 <body>
-    <div class="sidebar">
-        <div class="sidebar-header">Smart Green Energy</div>
-        <ul class="sidebar-menu">
-            <li class="active"><a href="index.html">หน้าหลัก</a></li>
-            <li><a href="dashboard.html">ภาพรวมพลังงาน</a></li>
-            <li><a href="input.html">บันทึกข้อมูลการใช้ไฟ</a></li>
-            <li><a href="recommend.html">แนะนำการลงทุน</a></li>
-            <li><a href="about.html">เกี่ยวกับเรา</a></li>
-        </ul>
-        <div class="sidebar-footer">2026 Smart Green Energy</div>
-    </div>
 
-    <div class="main-content">
-        <div class="top-bar">
-            <h1>ระบบจัดการพลังงานอัจฉริยะ</h1>
+    <!-- ===== HEADER ===== -->
+    <header>
+        <div class="wrap">
+            <nav>
+                <div class="brand">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="5" stroke="#E3A542" stroke-width="1.6"/>
+                        <g stroke="#E3A542" stroke-width="1.6" stroke-linecap="round">
+                            <line x1="12" y1="1.5" x2="12" y2="4.2"/>
+                            <line x1="12" y1="19.8" x2="12" y2="22.5"/>
+                            <line x1="1.5" y1="12" x2="4.2" y2="12"/>
+                            <line x1="19.8" y1="12" x2="22.5" y2="12"/>
+                            <line x1="4.5" y1="4.5" x2="6.4" y2="6.4"/>
+                            <line x1="17.6" y1="17.6" x2="19.5" y2="19.5"/>
+                            <line x1="4.5" y1="19.5" x2="6.4" y2="17.6"/>
+                            <line x1="17.6" y1="6.4" x2="19.5" y2="4.5"/>
+                        </g>
+                    </svg>
+                    Smart<span style="color:#E3A542;">Green</span>Energy
+                </div>
+                <div class="navlinks">
+                    <a href="#process">วิธีทำงาน</a>
+                    <a href="#analyzer">วิเคราะห์</a>
+                    <a href="#why">ทำไมเลือกเรา</a>
+                    <a href="#pricing">แพ็กเกจ</a>
+                    <a href="dashboard.html">Dashboard</a>
+                </div>
+                <div class="navcta">
+                    <a href="#analyzer" class="btn btn-gold">เริ่มวิเคราะห์</a>
+                </div>
+            </nav>
         </div>
+    </header>
 
-        <div class="panel">
-            <h2 class="panel-title">ยินดีต้อนรับสู่ระบบวิเคราะห์พลังงานและประเมินความคุ้มค่า</h2>
-            <p style="margin-bottom: 16px; line-height: 1.6; color: var(--text-main);">
-                ระบบนี้ช่วยวิเคราะห์ข้อมูลการใช้ไฟฟ้า พยากรณ์แนวโน้มค่าใช้จ่าย และคำนวณความคุ้มค่าในการลงทุนติดตั้งระบบพลังงานทางเลือก เช่น โซล่าเซลล์ ระบบอินเวอร์เตอร์ และอุปกรณ์ประหยัดพลังงาน เพื่อลดต้นทุนและผลกระทบต่อสิ่งแวดล้อมอย่างยั่งยืน
-            </p>
-            <a href="input.html" class="btn" style="display: inline-block; text-decoration: none;">เริ่มต้นกรอกข้อมูลเพื่อวิเคราะห์</a>
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+        <div class="hero-bg-mark"></div>
+        <div class="wrap">
+            <div class="hero-grid">
+                <div>
+                    <div class="eyebrow fade-up d1">AI วิเคราะห์พลังงาน สำหรับธุรกิจไทย</div>
+                    <h1 class="fade-up d2">รู้ก่อนติดตั้ง<br/>ว่า Solar คุ้มจริงแค่ไหน</h1>
+                    <p class="lede fade-up d3">
+                        กรอกบิลค่าไฟของกิจการคุณ แล้วให้ AI คำนวณจุดที่ใช้ไฟเกินจำเป็น
+                        ประเมินความคุ้มค่าของ Solar และแนะนำทางเลือกอื่นที่อาจประหยัดได้มากกว่า
+                        ก่อนตัดสินใจลงทุนสักบาท
+                    </p>
+                    <div class="hero-ctas fade-up d4">
+                        <a href="#analyzer" class="btn btn-gold">คำนวณค่าไฟของคุณ</a>
+                        <a href="#process" class="btn btn-outline-dark">ดูขั้นตอนการทำงาน</a>
+                    </div>
+                    <div class="hero-stats fade-up d4">
+                        <div><b>4.2</b><span>ชม.แดดใช้ได้เฉลี่ย/วัน (ไทย)</span></div>
+                        <div><b>~7 ปี</b><span>ระยะคืนทุนเฉลี่ยของลูกค้าเรา</span></div>
+                        <div><b>0 บาท</b><span>ค่าใช้จ่ายในการวิเคราะห์เบื้องต้น</span></div>
+                    </div>
+                </div>
+
+                <!-- Mini Calculator -->
+                <div class="mini-card fade-up d3">
+                    <h3>ประเมินเร็ว: ค่าไฟลดลงเท่าไร</h3>
+                    <div class="sub">กรอก 2 ค่า ระบบประเมินผลให้ทันที</div>
+                    <div class="field">
+                        <label for="miniBill">ค่าไฟเฉลี่ยต่อเดือน (บาท)</label>
+                        <input type="number" id="miniBill" value="18000" min="0" />
+                    </div>
+                    <div class="field" style="margin-bottom:0;">
+                        <label for="miniArea">พื้นที่หลังคาที่ติดตั้งได้ (ตร.ม.)</label>
+                        <input type="number" id="miniArea" value="60" min="0" />
+                    </div>
+                    <div class="mini-result">
+                        <div class="item">
+                            <span>ค่าไฟใหม่โดยประมาณ</span>
+                            <b id="miniNewBill">฿10,800</b>
+                        </div>
+                        <div class="item save">
+                            <span>ประหยัด/เดือน</span>
+                            <b id="miniSave">฿7,200</b>
+                        </div>
+                    </div>
+                    <div style="margin-top:14px;">
+                        <a href="#analyzer" class="btn btn-gold" style="width:100%;justify-content:center;font-size:14px;padding:11px 20px;">
+                            วิเคราะห์เต็มรูปแบบ →
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+        <div class="band"></div>
+    </section>
+
+    <!-- ===== PROCESS ===== -->
+    <section class="process" id="process">
+        <div class="wrap">
+            <div class="section-head">
+                <div class="eyebrow" style="color:var(--gold-deep);">กระบวนการทำงาน</div>
+                <h2>สี่ขั้นตอน จากบิลค่าไฟสู่คำแนะนำที่วัดผลได้</h2>
+                <p>แต่ละขั้นตอนออกแบบมาให้ตอบคำถามที่บิลค่าไฟทั่วไปตอบไม่ได้ — ใช้ไปเท่าไร ใช้ไปกับอะไร และควรลงทุนกับอะไรก่อน</p>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-num">01</div>
+                    <div>
+                        <h3>รับข้อมูลจากผู้ใช้งาน</h3>
+                        <p class="desc">กรอกข้อมูลพื้นฐานของกิจการ ใช้เวลาไม่ถึง 3 นาที ไม่ต้องมีความรู้ด้านไฟฟ้า</p>
+                    </div>
+                    <div class="detail">
+                        <b>ข้อมูลนำเข้า:</b> ค่าไฟรายเดือน, หน่วยไฟ (kWh), จังหวัด/พื้นที่, ขนาดพื้นที่ติดตั้ง, ประเภทกิจการ, งบประมาณลงทุน
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">02</div>
+                    <div>
+                        <h3>วิเคราะห์ข้อมูลด้วย AI</h3>
+                        <p class="desc">ระบบหารูปแบบการใช้ไฟ ช่วงเวลาที่ใช้สูง และแนวโน้มค่าไฟในอนาคต</p>
+                    </div>
+                    <div class="detail">
+                        <b>โมเดลที่ใช้:</b> Regression สำหรับพยากรณ์ค่าไฟล่วงหน้า และ Clustering สำหรับจัดกลุ่มรูปแบบการใช้พลังงานเทียบกับกิจการใกล้เคียง
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">03</div>
+                    <div>
+                        <h3>ระบบแนะนำพลังงานสะอาด</h3>
+                        <p class="desc">แนะนำขนาดระบบ Solar ที่เหมาะสม พร้อมอุปกรณ์เสริมอื่นที่อาจคุ้มค่ากว่า</p>
+                    </div>
+                    <div class="detail">
+                        <b>ไม่ผูกกับ Solar อย่างเดียว:</b> หากข้อมูลชี้ว่าปัญหาหลักคือแอร์เก่า ระบบจะแนะนำ LED, Inverter, VFD หรือ BESS ก่อน
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">04</div>
+                    <div>
+                        <h3>Dashboard สรุปผล</h3>
+                        <p class="desc">เห็นตัวเลขที่ตัดสินใจได้จริง ไม่ใช่แค่ภาพประกอบการขาย</p>
+                    </div>
+                    <div class="detail">
+                        <b>แสดงผล:</b> ค่าไฟปัจจุบันเทียบค่าไฟที่คาดการณ์, Potential Saving, Carbon Reduction, ROI และ Before/After
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ANALYZER ===== -->
+    <section class="analyzer" id="analyzer">
+        <div class="wrap">
+            <div class="section-head">
+                <div class="eyebrow">ทดลองใช้จริง</div>
+                <h2 style="color:var(--text-on-dark);">ลองวิเคราะห์ค่าไฟของกิจการคุณ</h2>
+                <p>ตัวเลขด้านล่างเป็นการประมาณการเบื้องต้นจากข้อมูลที่คุณกรอก ใช้เพื่อดูแนวโน้มก่อนตัดสินใจ</p>
+            </div>
+
+            <div class="analyzer-grid">
+                <!-- Form -->
+                <div class="panel-form">
+                    <h3>ข้อมูลกิจการของคุณ</h3>
+                    <div class="field">
+                        <label for="billInput">ค่าไฟเฉลี่ยต่อเดือน (บาท)</label>
+                        <input type="number" id="billInput" value="24000" min="0" />
+                    </div>
+                    <div class="row2">
+                        <div class="field">
+                            <label for="kwhInput">ปริมาณไฟที่ใช้ (kWh/เดือน)</label>
+                            <input type="number" id="kwhInput" value="3800" min="0" />
+                        </div>
+                        <div class="field">
+                            <label for="provinceInput">จังหวัด</label>
+                            <select id="provinceInput">
+                                <option value="กรุงเทพฯ">กรุงเทพฯ</option>
+                                <option value="ชลบุรี">ชลบุรี</option>
+                                <option value="เชียงใหม่">เชียงใหม่</option>
+                                <option value="ขอนแก่น">ขอนแก่น</option>
+                                <option value="ภูเก็ต">ภูเก็ต</option>
+                                <option value="สงขลา">สงขลา</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row2">
+                        <div class="field">
+                            <label for="areaInput">พื้นที่ติดตั้ง Solar (ตร.ม.)</label>
+                            <input type="number" id="areaInput" value="90" min="0" />
+                        </div>
+                        <div class="field">
+                            <label for="businessInput">ประเภทกิจการ</label>
+                            <select id="businessInput">
+                                <option value="ร้านอาหาร">ร้านอาหาร</option>
+                                <option value="สำนักงาน">สำนักงาน</option>
+                                <option value="โรงงาน">โรงงาน</option>
+                                <option value="ห้างสรรพสินค้า">ห้างสรรพสินค้า</option>
+                                <option value="โรงแรม">โรงแรม</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="field" style="margin-bottom:24px;">
+                        <label for="budgetInput">งบประมาณลงทุน (บาท)</label>
+                        <input type="number" id="budgetInput" value="600000" min="0" />
+                    </div>
+                    <button class="btn btn-gold" id="runAnalysis" style="width:100%;justify-content:center;">
+                        วิเคราะห์ตอนนี้
+                    </button>
+                    <p class="note" style="color:var(--text-muted-dark);">
+                        ตัวเลขคำนวณจากค่าเฉลี่ยกำลังผลิตแสงอาทิตย์ในไทยและอัตราค่าไฟทั่วไป
+                        ใช้ประกอบการตัดสินใจเบื้องต้นเท่านั้น
+                    </p>
+                </div>
+
+                <!-- Results -->
+                <div class="panel-results">
+                    <div class="kpi-row">
+                        <div class="kpi">
+                            <span>ค่าไฟปัจจุบัน/เดือน</span>
+                            <b id="kpiCurrent">฿24,000</b>
+                        </div>
+                        <div class="kpi highlight">
+                            <span>ค่าไฟคาดการณ์/เดือน</span>
+                            <b id="kpiPredicted">฿9,340</b>
+                        </div>
+                        <div class="kpi">
+                            <span>ระยะคืนทุน (ROI)</span>
+                            <b id="kpiRoi">6.4 ปี</b>
+                        </div>
+                        <div class="kpi">
+                            <span>ลด CO₂/เดือน</span>
+                            <b id="kpiCarbon">612 กก.</b>
+                        </div>
+                    </div>
+
+                    <div class="charts-2">
+                        <div class="chart-box">
+                            <h4>ค่าไฟ 12 เดือน: ปัจจุบัน vs หลังติดตั้ง</h4>
+                            <canvas id="billChart" height="170"></canvas>
+                        </div>
+                        <div class="chart-box">
+                            <h4>ไฟที่ใช้ไปกับอะไรบ้าง</h4>
+                            <canvas id="breakdownChart" height="170"></canvas>
+                        </div>
+                    </div>
+                    <p class="note" id="recommendNote">
+                        ขนาดระบบที่แนะนำ: <b>—</b> · งบประมาณของคุณ <b>—</b>
+                    </p>
+                    <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
+                        <a href="dashboard.html" class="btn btn-ink" style="font-size:13px;padding:10px 18px;">
+                            📊 ดู Dashboard เต็ม
+                        </a>
+                        <a href="recommend.html" class="btn btn-outline-light" style="font-size:13px;padding:10px 18px;border-color:var(--line-light);color:var(--text-on-light);">
+                            💡 คำแนะนำเพิ่มเติม
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== WHY US ===== -->
+    <section class="why" id="why">
+        <div class="wrap">
+            <div class="section-head">
+                <div class="eyebrow" style="color:var(--gold-deep);">คำถามที่ลูกค้าถามบ่อย</div>
+                <h2>ทำไมต้องวิเคราะห์ก่อน ในเมื่อ Solar มีพนักงานขายอยู่แล้ว</h2>
+                <p>เพราะพนักงานขาย Solar มีเป้าหมายคือปิดการขาย Solar ส่วนเราไม่ได้ขายแผง — เราแค่บอกว่าคุ้มไหม คุ้มแค่ไหน และถ้าไม่คุ้ม ควรทำอะไรแทน</p>
+            </div>
+            <div class="qa-list">
+                <div class="qa">
+                    <div class="q">บิลค่าไฟบอกแค่ยอดรวม ไม่รู้ว่าใช้ไปกับอะไร</div>
+                    <div class="a"><b>เราแยกให้เห็นเป็นหมวด</b> เช่น แอร์ แสงสว่าง เครื่องจักร โดยเทียบกับกิจการประเภทเดียวกันในพื้นที่เดียวกัน เพื่อชี้จุดที่ใช้ไฟเกินความจำเป็นจริง</div>
+                </div>
+                <div class="qa">
+                    <div class="q">Solar มีคนขายอยู่แล้ว จะจ้างเราไปทำไม</div>
+                    <div class="a"><b>พนักงานขาย Solar มีผลประโยชน์ผูกกับการขายแผง</b> ระบบของเราไม่ผูกกับผู้ผลิตหรือผู้ติดตั้งรายใด ผลวิเคราะห์จึงตรงไปตรงมา และถ้าตัวเลขชี้ว่า Solar ยังไม่คุ้ม เราจะบอกตรงๆ พร้อมทางเลือกอื่น</div>
+                </div>
+                <div class="qa">
+                    <div class="q">นอกจาก Solar มีอะไรที่ประหยัดไฟได้อีก</div>
+                    <div class="a"><b>มี</b> เช่น LED, Inverter AC, VFD, PFC, BESS, BMS, EMS ซึ่งบางกรณีคืนทุนเร็วกว่า Solar ด้วยซ้ำ</div>
+                </div>
+                <div class="qa">
+                    <div class="q">อยากรู้ว่าใช้เครื่องมือนี้แล้วต่างจากเดิมจริงไหม</div>
+                    <div class="a"><b>ระบบเปรียบเทียบก่อน-หลัง</b> ให้ทุกครั้ง พร้อมคำนวณค่าไฟที่ต่างกันเป็นตัวเลขจริง</div>
+                </div>
+                <div class="qa">
+                    <div class="q">ค่าสมาชิกรายเดือน คุ้มระยะยาวไหม</div>
+                    <div class="a"><b>คุ้ม เพราะการใช้ไฟเปลี่ยนตลอด</b> สมาชิกรายเดือนคือการติดตามและปรับคำแนะนำต่อเนื่อง ต่างจากการวิเคราะห์ครั้งเดียวที่ล้าสมัย</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PRICING ===== -->
+    <section class="pricing" id="pricing">
+        <div class="wrap">
+            <div class="section-head">
+                <div class="eyebrow" style="color:var(--gold-deep);">แพ็กเกจ</div>
+                <h2>เริ่มฟรี แล้วค่อยตัดสินใจ</h2>
+                <p>ไม่มีค่าใช้จ่ายในการดูตัวเลขเบื้องต้น จ่ายเมื่อคุณต้องการติดตามผลต่อเนื่อง</p>
+            </div>
+            <div class="price-grid">
+                <div class="price-card">
+                    <h3>เริ่มต้น</h3>
+                    <div class="amount">ฟรี</div>
+                    <ul>
+                        <li>วิเคราะห์เบื้องต้น 1 ครั้ง</li>
+                        <li>ประเมิน Solar และ ROI คร่าวๆ</li>
+                        <li>ไม่บันทึกประวัติการใช้ไฟ</li>
+                    </ul>
+                    <button class="btn btn-outline-light" style="justify-content:center;" onclick="location.href='#analyzer'">
+                        เริ่มใช้งาน
+                    </button>
+                </div>
+                <div class="price-card mid">
+                    <h3>ธุรกิจ</h3>
+                    <div class="amount">฿990<span>/เดือน</span></div>
+                    <ul>
+                        <li>ติดตามค่าไฟรายเดือนต่อเนื่อง</li>
+                        <li>แยกหมวดการใช้ไฟละเอียด</li>
+                        <li>เปรียบเทียบก่อน-หลังทุกการเปลี่ยนแปลง</li>
+                        <li>แนะนำอุปกรณ์นอกเหนือจาก Solar</li>
+                    </ul>
+                    <button class="btn btn-ink" style="justify-content:center;">เลือกแพ็กเกจนี้</button>
+                </div>
+                <div class="price-card">
+                    <h3>องค์กร</h3>
+                    <div class="amount">ติดต่อ</div>
+                    <ul>
+                        <li>รองรับหลายสาขา/หลายมิเตอร์</li>
+                        <li>รายงานสำหรับเสนอฝ่ายบริหาร</li>
+                        <li>ที่ปรึกษาพลังงานเฉพาะทาง</li>
+                    </ul>
+                    <button class="btn btn-outline-light" style="justify-content:center;">คุยกับทีมงาน</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="wrap">
+            <div class="foot-grid">
+                <div class="foot-brand">🌱 SmartGreenEnergy</div>
+                <div class="foot-cols">
+                    <div>
+                        <h5>ผลิตภัณฑ์</h5>
+                        <a href="#process">วิธีทำงาน</a>
+                        <a href="#analyzer">เครื่องคำนวณ</a>
+                        <a href="#pricing">แพ็กเกจ</a>
+                    </div>
+                    <div>
+                        <h5>บริษัท</h5>
+                        <a href="#why">เกี่ยวกับเรา</a>
+                        <a href="#">ติดต่อ</a>
+                    </div>
+                </div>
+            </div>
+            <div class="foot-bottom">
+                <span>© 2026 SmartGreenEnergy — วิเคราะห์ก่อนตัดสินใจ</span>
+                <span>ตัวเลขทั้งหมดเป็นการประมาณการ ไม่ใช่คำแนะนำทางการเงิน</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== SCRIPT ===== -->
+    <script>
+        // ============================================================
+        //  SOLAR ESTIMATION ENGINE
+        // ============================================================
+        function estimate(bill, kwh, areaSqm, budget, businessType) {
+            const kwpFromArea = areaSqm / 7;
+            const kwpFromUsage = kwh / 150;
+            const recKwp = Math.max(0.5, Math.min(kwpFromArea, kwpFromUsage));
+            const dailyProdPerKwp = 4.2;
+            const monthlyProduction = recKwp * dailyProdPerKwp * 30;
+            const offset = Math.min(monthlyProduction / Math.max(kwh, 1), 0.9);
+            const savings = bill * offset;
+            const newBill = Math.max(bill - savings, bill * 0.08);
+            const systemCost = recKwp * 36000;
+            const paybackYears = savings > 0 ? systemCost / (savings * 12) : 99;
+            const co2Month = monthlyProduction * 0.5;
+            return { recKwp, monthlyProduction, savings, newBill, systemCost, paybackYears, co2Month, offset };
+        }
+
+        // ============================================================
+        //  BREAKDOWN DATA
+        // ============================================================
+        const breakdowns = {
+            'ร้านอาหาร': { labels: ['เครื่องปรับอากาศ', 'อุปกรณ์ครัว', 'แสงสว่าง', 'อื่นๆ'], data: [40, 35, 15, 10] },
+            'สำนักงาน': { labels: ['เครื่องปรับอากาศ', 'อุปกรณ์สำนักงาน', 'แสงสว่าง', 'อื่นๆ'], data: [50, 25, 15, 10] },
+            'โรงงาน': { labels: ['เครื่องจักร', 'ระบบทำความเย็น', 'แสงสว่าง', 'อื่นๆ'], data: [60, 18, 12, 10] },
+            'ห้างสรรพสินค้า': { labels: ['เครื่องปรับอากาศ', 'แสงสว่าง', 'อุปกรณ์ไฟฟ้า', 'อื่นๆ'], data: [45, 30, 15, 10] },
+            'โรงแรม': { labels: ['เครื่องปรับอากาศ', 'ทำน้ำอุ่น', 'แสงสว่าง', 'อื่นๆ'], data: [42, 26, 20, 12] }
+        };
+
+        const palette = ['#3E7C82', '#8AA48D', '#E3A542', '#C9C2A6'];
+
+        function fmtBaht(n) {
+            return '฿' + Math.round(n).toLocaleString('th-TH');
+        }
+
+        // ============================================================
+        //  MINI CALCULATOR
+        // ============================================================
+        const miniBill = document.getElementById('miniBill');
+        const miniArea = document.getElementById('miniArea');
+
+        function updateMini() {
+            const bill = parseFloat(miniBill.value) || 0;
+            const area = parseFloat(miniArea.value) || 0;
+            const est = estimate(bill, bill / 6.3, area, 0, 'สำนักงาน');
+            document.getElementById('miniNewBill').textContent = fmtBaht(est.newBill);
+            document.getElementById('miniSave').textContent = fmtBaht(est.savings);
+        }
+        miniBill.addEventListener('input', updateMini);
+        miniArea.addEventListener('input', updateMini);
+        updateMini();
+
+        // ============================================================
+        //  FULL ANALYZER
+        // ============================================================
+        let billChart, breakdownChart;
+
+        function renderCharts(current, predicted, businessType) {
+            const months = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+            const seasonal = [1.05, 1.0, 1.1, 1.18, 1.12, 1.0, 0.98, 0.97, 1.0, 1.02, 1.0, 1.08];
+            const currentSeries = seasonal.map(f => Math.round(current * f));
+            const predictedSeries = seasonal.map(f => Math.round(predicted * f));
+
+            const billCtx = document.getElementById('billChart');
+            if (billChart) billChart.destroy();
+            billChart = new Chart(billCtx, {
+                type: 'line',
+                data: {
+                    labels: months,
+                    datasets: [{
+                        label: 'ปัจจุบัน',
+                        data: currentSeries,
+                        borderColor: '#B7C4B6',
+                        backgroundColor: 'transparent',
+                        tension: 0.35,
+                        borderWidth: 2,
+                        pointRadius: 0
+                    }, {
+                        label: 'หลังติดตั้ง',
+                        data: predictedSeries,
+                        borderColor: '#3E7C82',
+                        backgroundColor: 'rgba(62,124,130,0.12)',
+                        tension: 0.35,
+                        borderWidth: 2.5,
+                        pointRadius: 0,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { boxWidth: 10, font: { family: 'IBM Plex Sans Thai', size: 11 } }
+                        }
+                    },
+                    scales: {
+                        y: { ticks: { font: { family: 'IBM Plex Sans Thai', size: 10 } }, grid: { color: 'rgba(23,36,27,0.06)' } },
+                        x: { ticks: { font: { family: 'IBM Plex Sans Thai', size: 10 } }, grid: { display: false } }
+                    }
+                }
+            });
+
+            const bd = breakdowns[businessType] || breakdowns['สำนักงาน'];
+            const bdCtx = document.getElementById('breakdownChart');
+            if (breakdownChart) breakdownChart.destroy();
+            breakdownChart = new Chart(bdCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: bd.labels,
+                    datasets: [{ data: bd.data, backgroundColor: palette, borderWidth: 0 }]
+                },
+                options: {
+                    responsive: true,
+                    cutout: '62%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { boxWidth: 10, font: { family: 'IBM Plex Sans Thai', size: 10.5 } }
+                        }
+                    }
+                }
+            });
+        }
+
+        function runFullAnalysis() {
+            const bill = parseFloat(document.getElementById('billInput').value) || 0;
+            const kwh = parseFloat(document.getElementById('kwhInput').value) || 1;
+            const area = parseFloat(document.getElementById('areaInput').value) || 0;
+            const budget = parseFloat(document.getElementById('budgetInput').value) || 0;
+            const businessType = document.getElementById('businessInput').value;
+
+            const est = estimate(bill, kwh, area, budget, businessType);
+
+            document.getElementById('kpiCurrent').textContent = fmtBaht(bill);
+            document.getElementById('kpiPredicted').textContent = fmtBaht(est.newBill);
+            document.getElementById('kpiRoi').textContent = (est.paybackYears < 30 ? est.paybackYears.toFixed(1) : '>30') + ' ปี';
+            document.getElementById('kpiCarbon').textContent = Math.round(est.co2Month).toLocaleString('th-TH') + ' กก.';
+
+            const budgetNote = budget >= est.systemCost ?
+                'อยู่ในงบประมาณที่ตั้งไว้' :
+                `ต่ำกว่าที่แนะนำ (${fmtBaht(est.systemCost)}) — พิจารณาระบบขนาดเล็กลง`;
+            document.getElementById('recommendNote').innerHTML =
+                `ขนาดระบบที่แนะนำ: <b>${est.recKwp.toFixed(1)} kWp</b> (ราว ${fmtBaht(est.systemCost)}) · งบประมาณของคุณ <b>${budgetNote}</b>`;
+
+            renderCharts(bill, est.newBill, businessType);
+        }
+
+        document.getElementById('runAnalysis').addEventListener('click', runFullAnalysis);
+        window.addEventListener('load', runFullAnalysis);
+    </script>
+
 </body>
 </html>
