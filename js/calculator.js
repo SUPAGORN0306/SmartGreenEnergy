@@ -1,32 +1,21 @@
-// ============================================================
-//  CALCULATOR.JS - ฟังก์ชันคำนวณทั้งหมด
-//  รับข้อมูลจาก JSON ที่ส่งมา ไม่มีฮาร์ดโค้ด
-// ============================================================
-
-// ---------- คำนวณค่าไฟต่อหน่วย ----------
 function calcAvgRate(bill, kwh) {
     if (kwh <= 0) return 0;
     return Math.round((bill / kwh) * 100) / 100;
 }
 
-// ---------- คำนวณการประหยัดตามประเภทกิจการ (รับ appData) ----------
 function calculateSavings(bill, kwh, businessType, budget, appData) {
-    // ตั้งค่าเริ่มต้น
     let savingRate = 0.20;
     let recommendation = "ปรับตั้งเวลาเปิด-ปิดเครื่องใช้ไฟฟ้า + เปลี่ยนหลอดไฟ LED";
     let deviceType = "LED + Automation";
     let options = ["LED", "Automation"];
 
-    // ถ้ามีข้อมูลใน JSON ให้ใช้
     if (appData && appData.businesses && appData.businesses[businessType]) {
         const biz = appData.businesses[businessType];
-        // ใช้ค่าจาก JSON ถ้ามี
         if (biz.savingRate) savingRate = biz.savingRate;
         if (biz.recommendation) recommendation = biz.recommendation;
         if (biz.deviceType) deviceType = biz.deviceType;
         if (biz.options) options = biz.options;
     } else {
-        // fallback ตามประเภทกิจการ
         switch (businessType) {
             case "โรงงาน":
                 savingRate = 0.30;
@@ -65,7 +54,6 @@ function calculateSavings(bill, kwh, businessType, budget, appData) {
     const roi = budget > 0 ? (yearlySaving / budget) * 100 : 0;
     const paybackPeriod = monthlySaving > 0 ? budget / monthlySaving : 999;
 
-    // คำนวณ Carbon (ใช้ kwh จริง)
     const carbonFactor = appData?.carbonFactors?.co2PerKwh || 0.5;
     const carbonPerYear = kwh * 12 * carbonFactor / 1000;
     const carbonReduction = carbonPerYear * savingRate;
@@ -84,7 +72,6 @@ function calculateSavings(bill, kwh, businessType, budget, appData) {
     };
 }
 
-// ---------- สร้างข้อมูลย้อนหลัง 12 เดือน (คงเดิม) ----------
 function generateHistoricalData(currentBill, months = 12) {
     const data = [];
     for (let i = 0; i < months; i++) {
@@ -96,12 +83,14 @@ function generateHistoricalData(currentBill, months = 12) {
     return data;
 }
 
-// ---------- ทำนายค่าไฟล่วงหน้า (คงเดิม) ----------
 function predictFutureBill(historicalData, months = 6) {
     const n = historicalData.length;
     if (n < 2) return [];
 
-    let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
+    let sumX = 0,
+        sumY = 0,
+        sumXY = 0,
+        sumX2 = 0;
     for (let i = 0; i < n; i++) {
         sumX += i;
         sumY += historicalData[i];
@@ -119,13 +108,11 @@ function predictFutureBill(historicalData, months = 6) {
     return predictions;
 }
 
-// ---------- คำนวณเปอร์เซ็นต์เปลี่ยนแปลง ----------
 function calcPercentChange(current, previous) {
     if (previous === 0) return 0;
     return Math.round(((current - previous) / previous) * 100 * 10) / 10;
 }
 
-// ---------- จำลองข้อมูลการใช้งานรายชั่วโมง ----------
 function generateHourlyUsage() {
     const hours = [];
     for (let h = 0; h < 24; h++) {
@@ -141,22 +128,19 @@ function generateHourlyUsage() {
     return hours;
 }
 
-// ---------- ดึงอุปกรณ์แนะนำจาก JSON ----------
 function getDeviceRecommendations(businessType, budget, bill, appData) {
     const allDevices = appData?.deviceOptions || {};
 
-    // แปลง object เป็น array
     const deviceList = Object.entries(allDevices).map(([key, value]) => ({
         id: key,
         name: value.name || key,
-        icon: value.icon || '🔧',
+        icon: value.icon || '',
         cost: value.cost || 0,
         saving: value.saving || 10,
         payback: value.payback || 12,
         desc: value.desc || ''
     }));
 
-    // ตามประเภทกิจการ
     let recommended = [];
     const bizData = appData?.businesses?.[businessType];
     if (bizData && bizData.options) {
