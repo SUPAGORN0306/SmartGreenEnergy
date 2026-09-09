@@ -311,6 +311,114 @@ footer {
     margin-top: 30px;
 }
 
+/* ===== ICON SIZES ===== */
+.icon-sm {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+.icon-md {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+.icon-lg {
+    width: 28px;
+    height: 28px;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+.icon-xl {
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+.icon-xxl {
+    width: 48px;
+    height: 48px;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+/* ===== BUTTON ICONS ===== */
+.btn .btn-icon {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+/* ===== SIDEBAR ICONS ===== */
+.sidebar .menu-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+.sidebar .logo-icon {
+    width: 28px;
+    height: 28px;
+    color: #22c55e;
+    flex-shrink: 0;
+}
+
+.sidebar .avatar-icon {
+    width: 40px;
+    height: 40px;
+    color: rgba(255,255,255,0.6);
+    flex-shrink: 0;
+}
+
+/* ===== STAT LABEL ICONS ===== */
+.stat-card .label-icon {
+    width: 16px;
+    height: 16px;
+    color: #94a3b8;
+    flex-shrink: 0;
+}
+
+/* ===== NAVBAR LOGO ICON ===== */
+.navbar .logo-icon {
+    width: 28px;
+    height: 28px;
+    color: #22c55e;
+    flex-shrink: 0;
+}
+
+/* ===== DEVICE ICONS ===== */
+.device-item .device-icon {
+    width: 28px;
+    height: 28px;
+    color: #22c55e;
+    flex-shrink: 0;
+    margin-bottom: 6px;
+}
+
+/* ===== PRICING ICONS ===== */
+.pricing-item .pricing-icon {
+    width: 32px;
+    height: 32px;
+    color: #22c55e;
+    flex-shrink: 0;
+    margin: 0 auto 8px;
+}
+
+/* ===== STEP ICONS ===== */
+.step-card .step-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 15px;
+    color: #0f172a;
+    flex-shrink: 0;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .container { padding: 20px; }
