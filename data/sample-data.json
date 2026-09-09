@@ -1,137 +1,89 @@
 {
-  "businesses": {
-    "ร้านอาหาร": {
-      "monthlyBill": 25000,
-      "monthlyKwh": 2500,
-      "budget": 200000,
-      "area": 150,
-      "province": "กรุงเทพฯ",
-      "savingRate": 0.20,
-      "recommendation": "เปลี่ยนแอร์เป็น Inverter + ติดตั้ง Solar ขนาด 10kW",
-      "deviceType": "Inverter + Solar",
-      "options": ["Inverter", "Solar", "LED"],
-      "pieData": {
-        "เครื่องปรับอากาศ": 40,
-        "อุปกรณ์ครัว": 35,
-        "แสงสว่าง": 15,
-        "เครื่องจักร": 5,
-        "อื่นๆ": 5
-      }
+    "businesses": {
+        "ร้านอาหาร": {
+            "monthlyBill": 25000,
+            "monthlyKwh": 2500,
+            "budget": 200000,
+            "area": 150,
+            "province": "กรุงเทพฯ",
+            "savingRate": 0.20,
+            "recommendation": "เปลี่ยนแอร์เป็น Inverter + ติดตั้ง Solar ขนาด 10kW",
+            "deviceType": "Inverter + Solar",
+            "options": ["Inverter", "Solar", "LED"]
+        },
+        "สำนักงาน": {
+            "monthlyBill": 35000,
+            "monthlyKwh": 3500,
+            "budget": 300000,
+            "area": 300,
+            "province": "กรุงเทพฯ",
+            "savingRate": 0.20,
+            "recommendation": "ปรับตั้งเวลาเปิด-ปิดเครื่องใช้ไฟฟ้า + เปลี่ยนหลอดไฟ LED",
+            "deviceType": "LED + Automation",
+            "options": ["LED", "Automation"]
+        },
+        "โรงงาน": {
+            "monthlyBill": 120000,
+            "monthlyKwh": 12000,
+            "budget": 800000,
+            "area": 2000,
+            "province": "ชลบุรี",
+            "savingRate": 0.30,
+            "recommendation": "ติดตั้ง Solar ขนาด 50kW + เปลี่ยนมอเตอร์เป็น Inverter + ติดตั้ง VFD",
+            "deviceType": "Solar + Inverter + VFD",
+            "options": ["Solar", "Inverter", "VFD", "PFC"]
+        },
+        "ห้างสรรพสินค้า": {
+            "monthlyBill": 80000,
+            "monthlyKwh": 8000,
+            "budget": 600000,
+            "area": 5000,
+            "province": "เชียงใหม่",
+            "savingRate": 0.25,
+            "recommendation": "เปลี่ยนหลอดไฟ LED + ตั้งเวลาเปิด-ปิด + Solar ขนาด 30kW",
+            "deviceType": "LED + Automation + Solar",
+            "options": ["LED", "Automation", "Solar", "BESS"]
+        },
+        "โรงแรม": {
+            "monthlyBill": 60000,
+            "monthlyKwh": 6000,
+            "budget": 500000,
+            "area": 1500,
+            "province": "ภูเก็ต",
+            "savingRate": 0.22,
+            "recommendation": "ติดตั้งระบบ BMS + เปลี่ยนแอร์เป็น Inverter + Solar ขนาด 20kW",
+            "deviceType": "BMS + Inverter + Solar",
+            "options": ["BMS", "Inverter", "Solar", "LED"]
+        }
     },
-    "สำนักงาน": {
-      "monthlyBill": 35000,
-      "monthlyKwh": 3500,
-      "budget": 300000,
-      "area": 300,
-      "province": "กรุงเทพฯ",
-      "savingRate": 0.20,
-      "recommendation": "ปรับตั้งเวลาเปิด-ปิดเครื่องใช้ไฟฟ้า + เปลี่ยนหลอดไฟ LED",
-      "deviceType": "LED + Automation",
-      "options": ["LED", "Automation"],
-      "pieData": {
-        "เครื่องปรับอากาศ": 50,
-        "อุปกรณ์ครัว": 5,
-        "แสงสว่าง": 25,
-        "เครื่องจักร": 10,
-        "อื่นๆ": 10
-      }
+    "electricityRates": {
+        "กรุงเทพฯ": { "rate": 4.42, "provider": "กฟน." },
+        "เชียงใหม่": { "rate": 4.12, "provider": "กฟภ." },
+        "ขอนแก่น": { "rate": 4.08, "provider": "กฟภ." },
+        "ภูเก็ต": { "rate": 4.25, "provider": "กฟภ." },
+        "ชลบุรี": { "rate": 4.18, "provider": "กฟภ." },
+        "นครราชสีมา": { "rate": 4.05, "provider": "กฟภ." },
+        "สงขลา": { "rate": 4.20, "provider": "กฟภ." }
     },
-    "โรงงาน": {
-      "monthlyBill": 120000,
-      "monthlyKwh": 12000,
-      "budget": 800000,
-      "area": 2000,
-      "province": "ชลบุรี",
-      "savingRate": 0.30,
-      "recommendation": "ติดตั้ง Solar ขนาด 50kW + เปลี่ยนมอเตอร์เป็น Inverter + ติดตั้ง VFD",
-      "deviceType": "Solar + Inverter + VFD",
-      "options": ["Solar", "Inverter", "VFD", "PFC"],
-      "pieData": {
-        "เครื่องปรับอากาศ": 15,
-        "อุปกรณ์ครัว": 5,
-        "แสงสว่าง": 10,
-        "เครื่องจักร": 60,
-        "อื่นๆ": 10
-      }
+    "deviceOptions": {
+        "LED": { "name": "หลอดไฟ LED", "cost": 5000, "saving": 8, "payback": 3, "desc": "เปลี่ยนหลอดไฟเป็น LED" },
+        "Inverter": { "name": "แอร์ Inverter", "cost": 50000, "saving": 15, "payback": 12, "desc": "เปลี่ยนแอร์เป็น Inverter" },
+        "VFD": { "name": "VFD มอเตอร์", "cost": 80000, "saving": 12, "payback": 18, "desc": "ติดตั้ง VFD ในมอเตอร์" },
+        "PFC": { "name": "ปรับปรุงคุณภาพไฟฟ้า", "cost": 60000, "saving": 10, "payback": 15, "desc": "ติดตั้งระบบปรับปรุงคุณภาพไฟฟ้า" },
+        "Solar": { "name": "Solar Cell", "cost": 300000, "saving": 25, "payback": 48, "desc": "ติดตั้งแผงโซลาร์เซลล์" },
+        "BESS": { "name": "ระบบกักเก็บพลังงาน", "cost": 400000, "saving": 18, "payback": 60, "desc": "ติดตั้งระบบกักเก็บพลังงาน" },
+        "BMS": { "name": "ระบบบริหารจัดการอาคาร", "cost": 150000, "saving": 20, "payback": 24, "desc": "ติดตั้งระบบบริหารจัดการอาคารอัจฉริยะ" },
+        "Automation": { "name": "ระบบควบคุมอัตโนมัติ", "cost": 30000, "saving": 10, "payback": 12, "desc": "ติดตั้งระบบควบคุมเปิด-ปิดอัตโนมัติ" }
     },
-    "ห้างสรรพสินค้า": {
-      "monthlyBill": 80000,
-      "monthlyKwh": 8000,
-      "budget": 600000,
-      "area": 5000,
-      "province": "เชียงใหม่",
-      "savingRate": 0.25,
-      "recommendation": "เปลี่ยนหลอดไฟ LED + ตั้งเวลาเปิด-ปิด + Solar ขนาด 30kW",
-      "deviceType": "LED + Automation + Solar",
-      "options": ["LED", "Automation", "Solar", "BESS"],
-      "pieData": {
-        "เครื่องปรับอากาศ": 45,
-        "อุปกรณ์ครัว": 5,
-        "แสงสว่าง": 30,
-        "เครื่องจักร": 10,
-        "อื่นๆ": 10
-      }
+    "solarInfo": {
+        "costPerKw": 35000,
+        "averageSunHours": 4.2,
+        "lifetimeYears": 25,
+        "efficiency": 0.85
     },
-    "โรงแรม": {
-      "monthlyBill": 60000,
-      "monthlyKwh": 6000,
-      "budget": 500000,
-      "area": 1500,
-      "province": "ภูเก็ต",
-      "savingRate": 0.22,
-      "recommendation": "ติดตั้งระบบ BMS + เปลี่ยนแอร์เป็น Inverter + Solar ขนาด 20kW",
-      "deviceType": "BMS + Inverter + Solar",
-      "options": ["BMS", "Inverter", "Solar", "LED"],
-      "pieData": {
-        "เครื่องปรับอากาศ": 55,
-        "อุปกรณ์ครัว": 15,
-        "แสงสว่าง": 15,
-        "เครื่องจักร": 5,
-        "อื่นๆ": 10
-      }
+    "carbonFactors": {
+        "co2PerKwh": 0.5,
+        "treeEquivalent": 20,
+        "carKmEquivalent": 2100
     }
-  },
-
-  "electricityRates": {
-    "กรุงเทพฯ": { "rate": 4.42, "provider": "กฟน." },
-    "เชียงใหม่": { "rate": 4.12, "provider": "กฟภ." },
-    "ขอนแก่น": { "rate": 4.08, "provider": "กฟภ." },
-    "ภูเก็ต": { "rate": 4.25, "provider": "กฟภ." },
-    "ชลบุรี": { "rate": 4.18, "provider": "กฟภ." },
-    "นครราชสีมา": { "rate": 4.05, "provider": "กฟภ." },
-    "เชียงราย": { "rate": 4.10, "provider": "กฟภ." },
-    "สงขลา": { "rate": 4.20, "provider": "กฟภ." }
-  },
-
-  "deviceOptions": {
-    "LED": { "name": "หลอดไฟ LED", "cost": 5000, "saving": 8, "payback": 3, "desc": "เปลี่ยนหลอดไฟเป็น LED" },
-    "Inverter": { "name": "แอร์ Inverter", "cost": 50000, "saving": 15, "payback": 12, "desc": "เปลี่ยนแอร์เป็น Inverter" },
-    "VFD": { "name": "VFD มอเตอร์", "cost": 80000, "saving": 12, "payback": 18, "desc": "ติดตั้ง VFD ในมอเตอร์" },
-    "PFC": { "name": "ปรับปรุงคุณภาพไฟฟ้า", "cost": 60000, "saving": 10, "payback": 15, "desc": "ติดตั้งระบบปรับปรุงคุณภาพไฟฟ้า" },
-    "Solar": { "name": "Solar Cell", "cost": 300000, "saving": 25, "payback": 48, "desc": "ติดตั้งแผงโซลาร์เซลล์" },
-    "BESS": { "name": "ระบบกักเก็บพลังงาน", "cost": 400000, "saving": 18, "payback": 60, "desc": "ติดตั้งระบบกักเก็บพลังงาน" },
-    "BMS": { "name": "ระบบบริหารจัดการอาคาร", "cost": 150000, "saving": 20, "payback": 24, "desc": "ติดตั้งระบบบริหารจัดการอาคารอัจฉริยะ" },
-    "Automation": { "name": "ระบบควบคุมอัตโนมัติ", "cost": 30000, "saving": 10, "payback": 12, "desc": "ติดตั้งระบบควบคุมเปิด-ปิดอัตโนมัติ" }
-  },
-
-  "solarInfo": {
-    "costPerKw": 35000,
-    "averageSunHours": 5,
-    "lifetimeYears": 25,
-    "efficiency": 0.85
-  },
-
-  "carbonFactors": {
-    "co2PerKwh": 0.5,
-    "treeEquivalent": 20,
-    "carKmEquivalent": 2100
-  },
-
-  "hourlyUsagePattern": {
-    "ร้านอาหาร": [10,15,20,25,40,55,65,60,50,45,40,45,55,60,55,45,30,20,10,5,5,5,5,8],
-    "สำนักงาน": [5,10,30,50,55,55,40,50,55,55,55,40,20,15,10,8,5,5,3,3,3,3,3,3],
-    "โรงงาน": [15,25,60,70,75,75,50,65,75,75,70,60,50,45,40,30,20,15,10,8,8,8,8,10],
-    "ห้างสรรพสินค้า": [5,8,15,25,50,60,65,65,60,60,60,55,55,60,55,45,30,15,10,5,5,5,5,5],
-    "โรงแรม": [20,30,35,30,25,25,30,30,25,25,25,30,40,50,55,50,45,40,30,25,20,20,20,20]
-  }
 }
