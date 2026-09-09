@@ -1,25 +1,18 @@
-// ============================================================
-//  MAIN.JS - จัดการ UI และการทำงานทั้งหมด
-//  โหลดข้อมูลจาก data/sample-data.json ทั้งหมด
-// ============================================================
+let appData = null;
 
-let appData = null; // เก็บข้อมูลทั้งหมดจาก JSON
-
-// ---------- โหลดข้อมูลจาก JSON ----------
 async function loadAppData() {
     try {
         const response = await fetch('data/sample-data.json');
         if (!response.ok) throw new Error('โหลดข้อมูลไม่สำเร็จ');
         appData = await response.json();
-        console.log('✅ โหลดข้อมูล sample-data.json สำเร็จ');
+        console.log('โหลด sample-data.json สำเร็จ');
         return appData;
     } catch (error) {
-        console.error('❌ โหลดข้อมูลล้มเหลว:', error);
+        console.error('โหลดข้อมูลล้มเหลว:', error);
         return null;
     }
 }
 
-// ---------- โหลดข้อมูลผู้ใช้จาก localStorage ----------
 function loadUserData() {
     return {
         bill: parseFloat(localStorage.getItem('sg_bill')) || 0,
@@ -31,7 +24,6 @@ function loadUserData() {
     };
 }
 
-// ---------- บันทึกข้อมูลจากฟอร์ม ----------
 function saveUserData() {
     const bill = document.getElementById('bill')?.value;
     const kwh = document.getElementById('kwh')?.value;
@@ -41,19 +33,19 @@ function saveUserData() {
     const budget = document.getElementById('budget')?.value;
 
     if (!bill || parseFloat(bill) <= 0) {
-        alert('⚠️ กรุณากรอกค่าไฟฟ้ารายเดือน');
+        alert('กรุณากรอกค่าไฟฟ้ารายเดือน');
         return;
     }
     if (!kwh || parseFloat(kwh) <= 0) {
-        alert('⚠️ กรุณากรอกปริมาณการใช้ไฟฟ้า');
+        alert('กรุณากรอกปริมาณการใช้ไฟฟ้า');
         return;
     }
     if (!business) {
-        alert('⚠️ กรุณาเลือกประเภทกิจการ');
+        alert('กรุณาเลือกประเภทกิจการ');
         return;
     }
     if (!budget || parseFloat(budget) <= 0) {
-        alert('⚠️ กรุณากรอกงบประมาณลงทุน');
+        alert('กรุณากรอกงบประมาณลงทุน');
         return;
     }
 
@@ -67,22 +59,20 @@ function saveUserData() {
     window.location.href = 'dashboard.html';
 }
 
-// ---------- โหลดตัวอย่างข้อมูลจาก JSON ----------
 async function loadSampleData() {
     const business = document.getElementById('business')?.value;
     if (!business) {
-        alert('⚠️ กรุณาเลือกประเภทกิจการก่อน');
+        alert('กรุณาเลือกประเภทกิจการก่อน');
         return;
     }
 
-    // โหลดข้อมูลจาก JSON ถ้ายังไม่มี
     if (!appData) {
         await loadAppData();
     }
 
     const sample = appData?.businesses?.[business];
     if (!sample) {
-        alert('⚠️ ไม่พบข้อมูลตัวอย่างสำหรับกิจการนี้');
+        alert('ไม่พบข้อมูลตัวอย่างสำหรับกิจการนี้');
         return;
     }
 
@@ -101,17 +91,13 @@ async function loadSampleData() {
     if (document.getElementById('province')) {
         document.getElementById('province').value = sample.province || '';
     }
-
-    console.log(`✅ โหลดตัวอย่างข้อมูล: ${business}`, sample);
 }
 
-// ---------- ดึงข้อมูลจาก JSON ตามประเภทกิจการ ----------
 function getBusinessData(businessType) {
     if (!appData) return null;
     return appData.businesses?.[businessType] || null;
 }
 
-// ---------- ดึงสัดส่วนพลังงานจาก JSON ----------
 function getEnergyPieData(businessType) {
     if (!appData) return null;
     return appData.energyPieData || {
@@ -123,7 +109,6 @@ function getEnergyPieData(businessType) {
     };
 }
 
-// ---------- ดึงข้อมูลการใช้ไฟรายชั่วโมงจาก JSON ----------
 function getHourlyUsage(businessType) {
     if (!appData) return null;
     const hourly = appData.hourlyUsagePattern?.[businessType];
@@ -131,7 +116,6 @@ function getHourlyUsage(businessType) {
     return Object.values(hourly);
 }
 
-// ---------- ดึงข้อมูล Solar จาก JSON ----------
 function getSolarInfo() {
     if (!appData) return null;
     return appData.solarInfo || {
@@ -142,7 +126,6 @@ function getSolarInfo() {
     };
 }
 
-// ---------- ดึงข้อมูล Carbon Factor จาก JSON ----------
 function getCarbonFactor() {
     if (!appData) return null;
     return appData.carbonFactors || {
@@ -152,15 +135,17 @@ function getCarbonFactor() {
     };
 }
 
-// ---------- ดึงข้อมูลอุปกรณ์จาก JSON ----------
 function getDeviceOptions() {
     if (!appData) return null;
     return appData.deviceOptions || {};
 }
 
-// ---------- แสดง Dashboard ----------
+function setElement(id, value) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value;
+}
+
 async function renderDashboard() {
-    // โหลดข้อมูล JSON
     if (!appData) {
         await loadAppData();
     }
@@ -171,14 +156,7 @@ async function renderDashboard() {
         return;
     }
 
-    const savings = calculateSavings(
-        data.bill,
-        data.kwh,
-        data.business,
-        data.budget,
-        appData
-    );
-
+    const savings = calculateSavings(data.bill, data.kwh, data.business, data.budget, appData);
     const historical = generateHistoricalData(data.bill);
     const future = predictFutureBill(historical);
     const hourlyData = getHourlyUsage(data.business) || generateHourlyUsage();
@@ -186,10 +164,8 @@ async function renderDashboard() {
     const solarInfo = getSolarInfo();
     const carbonFactor = getCarbonFactor();
 
-    // คำนวณค่าไฟต่อหน่วย
     const avgRate = data.kwh > 0 ? data.bill / data.kwh : 0;
 
-    // แสดง Key Metrics
     setElement('currentBill', data.bill.toLocaleString());
     setElement('currentKwh', data.kwh.toLocaleString());
     setElement('avgRate', avgRate.toFixed(2));
@@ -199,7 +175,6 @@ async function renderDashboard() {
     setElement('carbonReduce', savings.carbonReduction.toFixed(2));
     setElement('carbonCurrent', savings.carbonCurrent.toFixed(2));
 
-    // เปอร์เซ็นต์เปลี่ยนแปลง
     const prevBill = historical[historical.length - 2] || data.bill;
     const billChange = calcPercentChange(data.bill, prevBill);
     setElement('billChange', (billChange > 0 ? '▲ ' : '▼ ') + Math.abs(billChange).toFixed(1) + '%');
@@ -208,10 +183,8 @@ async function renderDashboard() {
     const kwhChange = calcPercentChange(data.kwh, prevKwh);
     setElement('kwhChange', (kwhChange > 0 ? '▲ ' : '▼ ') + Math.abs(kwhChange).toFixed(1) + '%');
 
-    // คำแนะนำ
     setElement('recommendationText', savings.recommendation);
 
-    // ข้อมูล Solar
     const solarCost = (10 * (solarInfo?.costPerKw || 35000));
     const solarSaving = data.bill * 0.25;
     const solarROI = ((solarSaving * 12) / solarCost) * 100;
@@ -223,7 +196,6 @@ async function renderDashboard() {
     setElement('solarPayback', solarPayback.toFixed(1) + ' ปี');
     setElement('solarLifetime', (solarInfo?.lifetimeYears || 25) + ' ปี');
 
-    // Before/After
     const afterBill = data.bill - savings.monthlySaving;
     setElement('beforeBill', data.bill.toLocaleString());
     setElement('afterBill', afterBill.toLocaleString());
@@ -231,39 +203,203 @@ async function renderDashboard() {
     setElement('beforeCarbon', savings.carbonCurrent.toFixed(2));
     setElement('afterCarbon', (savings.carbonCurrent - savings.carbonReduction).toFixed(2));
 
-    // สร้างกราฟ
+    setElement('sidebarName', localStorage.getItem('sg_name') || 'Supagorn');
+    setElement('sidebarBusiness', data.business || 'เจ้าของกิจการ');
+
     createTrendChart(historical, future);
     createPieChart(pieData);
     createHourlyChart(hourlyData);
+}
 
-    // อัปเดตชื่อใน Sidebar
+function createTrendChart(historical, future) {
+    const ctx = document.getElementById('trendChart');
+    if (!ctx) return;
+
+    const allData = [...historical, ...future];
+    const labels = [];
+    for (let i = -11; i <= 6; i++) {
+        if (i <= 0) {
+            labels.push('เดือนที่ ' + (i + 12));
+        } else {
+            labels.push('+' + i + ' เดือน');
+        }
+    }
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'ค่าไฟจริง',
+                data: historical,
+                borderColor: '#0f172a',
+                backgroundColor: 'rgba(15,23,42,0.08)',
+                fill: true,
+                tension: 0.4,
+                pointRadius: 3
+            }, {
+                label: 'คาดการณ์',
+                data: future,
+                borderColor: '#22c55e',
+                backgroundColor: 'rgba(34,197,94,0.08)',
+                fill: true,
+                borderDash: [6, 4],
+                tension: 0.4,
+                pointRadius: 4,
+                pointBackgroundColor: '#22c55e'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20 } },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': ' + context.parsed.y.toLocaleString() + ' บาท';
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { callback: function(value) { return value.toLocaleString(); } }
+                }
+            }
+        }
+    });
+}
+
+function createPieChart(pieData) {
+    const ctx = document.getElementById('pieChart');
+    if (!ctx) return;
+
+    const labels = Object.keys(pieData);
+    const values = Object.values(pieData);
+    const colors = ['#0f172a', '#22c55e', '#3b82f6', '#f59e0b', '#ef4444'];
+
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: values,
+                backgroundColor: colors.slice(0, values.length),
+                borderWidth: 2,
+                borderColor: '#ffffff'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } }
+            },
+            cutout: '65%'
+        }
+    });
+}
+
+function createHourlyChart(hourlyData) {
+    const ctx = document.getElementById('hourlyChart');
+    if (!ctx) return;
+
+    const hours = [];
+    for (let h = 0; h < 24; h++) {
+        hours.push(h + ':00');
+    }
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: hours,
+            datasets: [{
+                label: 'การใช้ไฟฟ้า (kWh)',
+                data: hourlyData,
+                backgroundColor: function(context) {
+                    const value = context.parsed.y;
+                    if (value > 60) return '#22c55e';
+                    if (value > 40) return '#3b82f6';
+                    if (value > 25) return '#f59e0b';
+                    return '#ef4444';
+                },
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { ticks: { font: { size: 10 }, maxTicksLimit: 12 } },
+                y: { beginAtZero: true, title: { display: true, text: 'kWh' } }
+            }
+        }
+    });
+}
+
+async function showComparison() {
+    const data = loadUserData();
+    if (data.bill === 0) {
+        alert('กรุณากรอกข้อมูลในหน้ากรอกข้อมูลก่อน');
+        window.location.href = 'input.html';
+        return;
+    }
+
+    if (!appData) {
+        await loadAppData();
+    }
+
+    const savings = calculateSavings(data.bill, data.kwh, data.business, data.budget, appData);
+    const afterBill = data.bill - savings.monthlySaving;
+
+    setElement('beforeBill', data.bill.toLocaleString());
+    setElement('afterBill', afterBill.toLocaleString());
+    setElement('savingAmount', savings.monthlySaving.toLocaleString());
+    setElement('beforeCarbon', savings.carbonCurrent.toFixed(2));
+    setElement('afterCarbon', (savings.carbonCurrent - savings.carbonReduction).toFixed(2));
+
+    const behaviorSaving = data.bill * 0.08;
+    const efficiencySaving = data.bill * 0.15;
+    const solarSaving = data.bill * 0.25;
+
+    setElement('savingBehavior', Math.round(behaviorSaving).toLocaleString() + ' บาท');
+    setElement('savingEfficiency', Math.round(efficiencySaving).toLocaleString() + ' บาท');
+    setElement('savingSolar', Math.round(solarSaving).toLocaleString() + ' บาท');
+
+    const devices = getDeviceRecommendations(data.business, data.budget, data.bill, appData);
+    const deviceContainer = document.getElementById('deviceRecommendations');
+    if (deviceContainer) {
+        deviceContainer.innerHTML = devices.map(d => `
+            <div class="card" style="margin-bottom:12px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                    <div>
+                        <span style="font-size:24px; margin-right:10px;">${d.icon || '⚡'}</span>
+                        <strong>${d.name}</strong>
+                        <span style="color:#64748b; font-size:14px; margin-left:10px;">${d.desc || ''}</span>
+                    </div>
+                    <div style="display:flex; gap:15px; font-size:14px; flex-wrap:wrap;">
+                        <span>💰 ${d.cost.toLocaleString()} บาท</span>
+                        <span style="color:#22c55e;">⚡ ประหยัด ${d.saving}%</span>
+                        <span>⏳ คืนทุน ${d.payback} เดือน</span>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
     setElement('sidebarName', localStorage.getItem('sg_name') || 'Supagorn');
     setElement('sidebarBusiness', data.business || 'เจ้าของกิจการ');
 }
 
-// ---------- ฟังก์ชันช่วยแสดงผล ----------
-function setElement(id, value) {
-    const el = document.getElementById(id);
-    if (el) el.textContent = value;
-}
-
-// ---------- ฟังก์ชันอื่นๆ (คงเดิม) ----------
-// ... (createTrendChart, createPieChart, createHourlyChart, showComparison, etc.)
-// ส่วนนี้คงโค้ดเดิมจากที่เคยมี
-
-// ---------- เรียกใช้เมื่อหน้าโหลด ----------
 document.addEventListener('DOMContentLoaded', function() {
-    // หน้า Dashboard
     if (document.getElementById('trendChart')) {
         renderDashboard();
     }
 
-    // หน้า Recommend
     if (document.getElementById('deviceRecommendations')) {
         showComparison();
     }
 
-    // หน้า Input: ตัวอย่างข้อมูล
     const businessSelect = document.getElementById('business');
     if (businessSelect) {
         businessSelect.addEventListener('change', function() {
