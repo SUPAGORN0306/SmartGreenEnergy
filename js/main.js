@@ -62,9 +62,18 @@ function loadSampleData() {
         return;
     }
 
+    // ใช้ข้อมูลจาก calculator.js
+    if (typeof getBusinessExamples !== 'function') {
+        alert('⚠️ ระบบยังไม่พร้อม กรุณารีเฟรชหน้าเว็บ');
+        return;
+    }
+
     const examples = getBusinessExamples();
     const data = examples[business];
-    if (!data) return;
+    if (!data) {
+        alert('⚠️ ไม่มีข้อมูลตัวอย่างสำหรับประเภทกิจการนี้');
+        return;
+    }
 
     if (document.getElementById('bill')) {
         document.getElementById('bill').value = data.bill;
@@ -83,7 +92,10 @@ function renderDashboard() {
 
     // ถ้าไม่มีข้อมูล ให้กลับไปหน้า Input
     if (data.bill === 0 || data.kwh === 0) {
-        window.location.href = 'input.html';
+        // ตรวจสอบว่าอยู่ในหน้า dashboard จริงๆ หรือไม่
+        if (window.location.pathname.includes('dashboard')) {
+            window.location.href = 'input.html';
+        }
         return;
     }
 
@@ -115,10 +127,14 @@ function renderDashboard() {
     // คำแนะนำ
     setElement('recommendationText', savings.recommendation);
 
-    // สร้างกราฟ
-    createTrendChart(historical, future);
-    createPieChart();
-    createHourlyChart(hourlyData);
+    // สร้างกราฟ (ต้องมี Chart.js)
+    if (typeof Chart !== 'undefined') {
+        createTrendChart(historical, future);
+        createPieChart();
+        createHourlyChart(hourlyData);
+    } else {
+        console.warn('Chart.js not loaded');
+    }
 
     // คำนวณ Before/After
     const afterBill = data.bill - savings.monthlySaving;
@@ -150,6 +166,12 @@ function setElement(id, value) {
 function createTrendChart(historical, future) {
     const ctx = document.getElementById('trendChart');
     if (!ctx) return;
+
+    // ตรวจสอบว่า Chart ถูกนิยามแล้ว
+    if (typeof Chart === 'undefined') {
+        console.warn('Chart.js not loaded, cannot create trend chart');
+        return;
+    }
 
     const allData = [...historical, ...future];
     const labels = [];
@@ -219,6 +241,11 @@ function createPieChart() {
     const ctx = document.getElementById('pieChart');
     if (!ctx) return;
 
+    if (typeof Chart === 'undefined') {
+        console.warn('Chart.js not loaded, cannot create pie chart');
+        return;
+    }
+
     new Chart(ctx, {
         type: 'doughnut',
         data: {
@@ -247,6 +274,11 @@ function createPieChart() {
 function createHourlyChart(hourlyData) {
     const ctx = document.getElementById('hourlyChart');
     if (!ctx) return;
+
+    if (typeof Chart === 'undefined') {
+        console.warn('Chart.js not loaded, cannot create hourly chart');
+        return;
+    }
 
     const hours = [];
     for (let h = 0; h < 24; h++) {
@@ -293,7 +325,10 @@ function showComparison() {
     const data = loadUserData();
     if (data.bill === 0) {
         alert('⚠️ กรุณากรอกข้อมูลในหน้ากรอกข้อมูลก่อน');
-        window.location.href = 'input.html';
+        // ใช้ window.location แทนเพื่อความปลอดภัย
+        if (window.location.pathname.includes('recommend')) {
+            window.location.href = 'input.html';
+        }
         return;
     }
 
@@ -340,12 +375,15 @@ function showComparison() {
 
 // ---------- เรียกใช้เมื่อหน้าโหลด ----------
 document.addEventListener('DOMContentLoaded', function() {
-    // หน้า Dashboard
+    // ตรวจสอบว่าหน้าไหน
+    const page = window.location.pathname.split('/').pop() || 'index.html';
+
+    // หน้า Dashboard (ต้องมี trendChart)
     if (document.getElementById('trendChart')) {
         renderDashboard();
     }
 
-    // หน้า Recommend
+    // หน้า Recommend (ต้องมี deviceRecommendations)
     if (document.getElementById('deviceRecommendations')) {
         showComparison();
     }
@@ -353,8 +391,27 @@ document.addEventListener('DOMContentLoaded', function() {
     // หน้า Input: ตัวอย่างข้อมูล
     const businessSelect = document.getElementById('business');
     if (businessSelect) {
+        // เพิ่มปุ่มโหลดตัวอย่างถ้ายังไม่มี
+        const form = document.getElementById('energyForm');
+        if (form) {
+            const existingBtn = document.getElementById('loadSampleBtn');
+            if (!existingBtn) {
+                const btn = document.createElement('button');
+                btn.id = 'loadSampleBtn';
+                btn.type = 'button';
+                btn.className = 'btn btn-secondary';
+                btn.textContent = '📥 โหลดตัวอย่าง';
+                btn.onclick = loadSampleData;
+                // หาตำแหน่งที่จะแทรก
+                const submitBtn = form.querySelector('button[type="submit"]');
+                if (submitBtn) {
+                    submitBtn.parentNode.insertBefore(btn, submitBtn.nextSibling);
+                }
+            }
+        }
+
+        // ยังคง event listener ไว้
         businessSelect.addEventListener('change', function() {
-            // แสดงปุ่มโหลดตัวอย่าง
             const btn = document.getElementById('loadSampleBtn');
             if (btn) btn.style.display = 'inline-block';
         });
