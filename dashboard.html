@@ -1,454 +1,145 @@
-:root {
-    --primary: #0f172a;
-    --primary-light: #1e293b;
-    --primary-dark: #091e33;
-    --success: #22c55e;
-    --success-light: #dcfce7;
-    --warning: #f59e0b;
-    --warning-light: #fef3c7;
-    --danger: #ef4444;
-    --danger-light: #fee2e2;
-    --info: #3b82f6;
-    --info-light: #dbeafe;
-    --gray-50: #f8fafc;
-    --gray-100: #f1f5f9;
-    --gray-200: #e2e8f0;
-    --gray-300: #cbd5e1;
-    --gray-400: #94a3b8;
-    --gray-500: #64748b;
-    --gray-600: #475569;
-    --gray-700: #334155;
-    --gray-800: #1e293b;
-    --gray-900: #0f172a;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-    background: #f1f5f9;
-    min-height: 100vh;
-}
-
-.dashboard-wrapper {
-    display: flex;
-    min-height: 100vh;
-}
-
-.sidebar {
-    width: 280px;
-    min-width: 280px;
-    background: #0f172a;
-    color: #ffffff;
-    padding: 24px 16px;
-    display: flex;
-    flex-direction: column;
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    overflow-y: auto;
-}
-
-.sidebar .brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 0 12px 24px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    margin-bottom: 20px;
-}
-
-.sidebar .brand .logo-icon {
-    width: 32px;
-    height: 32px;
-    color: #22c55e;
-}
-
-.sidebar .brand .logo-text {
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-}
-
-.sidebar .brand .logo-text span {
-    color: #22c55e;
-}
-
-.sidebar .user-card {
-    background: rgba(255, 255, 255, 0.06);
-    border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 24px;
-    text-align: center;
-}
-
-.sidebar .user-card .avatar-icon {
-    width: 40px;
-    height: 40px;
-    color: rgba(255, 255, 255, 0.6);
-    margin-bottom: 4px;
-}
-
-.sidebar .user-card .name {
-    font-weight: 600;
-    font-size: 15px;
-}
-
-.sidebar .user-card .business {
-    font-size: 12px;
-    opacity: 0.6;
-    margin-top: 2px;
-}
-
-.sidebar .menu {
-    flex: 1;
-}
-
-.sidebar .menu-label {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: rgba(255, 255, 255, 0.3);
-    padding: 0 12px;
-    margin: 16px 0 8px;
-}
-
-.sidebar .menu-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 14px;
-    border-radius: 10px;
-    color: rgba(255, 255, 255, 0.6);
-    text-decoration: none;
-    transition: 0.2s;
-    font-size: 14px;
-    font-weight: 500;
-    margin-bottom: 2px;
-    cursor: pointer;
-    border: none;
-    background: none;
-    width: 100%;
-    text-align: left;
-}
-
-.sidebar .menu-item:hover {
-    background: rgba(255, 255, 255, 0.08);
-    color: #ffffff;
-}
-
-.sidebar .menu-item.active {
-    background: #22c55e;
-    color: #ffffff;
-}
-
-.sidebar .menu-item .menu-icon {
-    width: 20px;
-    height: 20px;
-    flex-shrink: 0;
-}
-
-.sidebar .menu-item .badge {
-    margin-left: auto;
-    background: rgba(255, 255, 255, 0.15);
-    padding: 2px 10px;
-    border-radius: 12px;
-    font-size: 11px;
-    font-weight: 600;
-}
-
-.sidebar .menu-item.active .badge {
-    background: rgba(255, 255, 255, 0.25);
-}
-
-.sidebar .sidebar-footer {
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    padding-top: 16px;
-    margin-top: 12px;
-}
-
-.main-content {
-    flex: 1;
-    padding: 28px 32px 32px;
-    max-width: calc(100% - 280px);
-}
-
-.page-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 28px;
-    flex-wrap: wrap;
-    gap: 12px;
-}
-
-.page-header h1 {
-    font-size: 24px;
-    font-weight: 700;
-    color: #0f172a;
-    margin: 0;
-}
-
-.page-header .subtitle {
-    color: #64748b;
-    font-size: 14px;
-    margin-top: 2px;
-}
-
-.page-header .header-actions {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
-.btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 22px;
-    border: none;
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s;
-    text-decoration: none;
-    font-family: inherit;
-}
-
-.btn .btn-icon {
-    width: 18px;
-    height: 18px;
-}
-
-.btn-primary {
-    background: #0f172a;
-    color: #ffffff;
-}
-
-.btn-primary:hover {
-    background: #1e293b;
-}
-
-.btn-success {
-    background: #22c55e;
-    color: #ffffff;
-}
-
-.btn-success:hover {
-    background: #16a34a;
-}
-
-.btn-outline {
-    background: transparent;
-    color: #475569;
-    border: 1.5px solid #e2e8f0;
-}
-
-.btn-outline:hover {
-    background: #f8fafc;
-    border-color: #cbd5e1;
-}
-
-.card {
-    background: #ffffff;
-    border-radius: 14px;
-    padding: 20px 24px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-    border: 1px solid #e2e8f0;
-}
-
-.stat-card {
-    background: #ffffff;
-    border-radius: 14px;
-    padding: 20px 24px;
-    border: 1px solid #e2e8f0;
-}
-
-.stat-card .stat-label {
-    font-size: 13px;
-    color: #64748b;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.stat-card .stat-label .label-icon {
-    width: 16px;
-    height: 16px;
-    color: #94a3b8;
-}
-
-.stat-card .stat-value {
-    font-size: 28px;
-    font-weight: 700;
-    color: #0f172a;
-    margin: 4px 0 2px;
-}
-
-.stat-card .stat-change {
-    font-size: 13px;
-    font-weight: 600;
-}
-
-.stat-card .stat-change.up {
-    color: #dc2626;
-}
-
-.stat-card .stat-change.down {
-    color: #22c55e;
-}
-
-.grid-2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
-
-.grid-3 {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 20px;
-}
-
-.grid-4 {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    gap: 20px;
-}
-
-.tag {
-    display: inline-block;
-    padding: 2px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-}
-
-.tag-success {
-    background: #dcfce7;
-    color: #16a34a;
-}
-
-.tag-warning {
-    background: #fef3c7;
-    color: #d97706;
-}
-
-.tag-danger {
-    background: #fee2e2;
-    color: #dc2626;
-}
-
-.tag-info {
-    background: #dbeafe;
-    color: #2563eb;
-}
-
-.table-wrap {
-    overflow-x: auto;
-}
-
-.comparison-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 14px;
-}
-
-.comparison-table th {
-    text-align: left;
-    padding: 12px 16px;
-    color: #475569;
-    font-weight: 600;
-    border-bottom: 2px solid #e2e8f0;
-}
-
-.comparison-table td {
-    padding: 12px 16px;
-    border-bottom: 1px solid #f1f5f9;
-}
-
-.comparison-table tr:hover td {
-    background: #f8fafc;
-}
-
-.before-after {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    gap: 20px;
-    align-items: center;
-    margin: 15px 0;
-}
-
-.before-after .box {
-    padding: 20px 30px;
-    border-radius: 16px;
-    text-align: center;
-}
-
-.before-after .box-before {
-    background: #fee2e2;
-}
-
-.before-after .box-after {
-    background: #d1fae5;
-}
-
-.before-after .box .label {
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 5px;
-}
-
-.before-after .box .amount {
-    font-size: 28px;
-    font-weight: 700;
-}
-
-.before-after .arrow {
-    font-size: 32px;
-    color: #475569;
-}
-
-@media (max-width: 1024px) {
-    .grid-4 {
-        grid-template-columns: 1fr 1fr;
-    }
-}
-
-@media (max-width: 768px) {
-    .dashboard-wrapper {
-        flex-direction: column;
-    }
-    .sidebar {
-        width: 100%;
-        min-width: 100%;
-        height: auto;
-        position: relative;
-        padding: 16px;
-    }
-    .main-content {
-        max-width: 100%;
-        padding: 20px;
-    }
-    .grid-2,
-    .grid-3,
-    .grid-4 {
-        grid-template-columns: 1fr;
-    }
-    .page-header {
-        flex-direction: column;
-    }
-    .before-after {
-        grid-template-columns: 1fr;
-        gap: 10px;
-    }
-    .before-after .arrow {
-        transform: rotate(90deg);
-    }
-}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - SmartGreenEnergy</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-wrapper">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="brand">🌱 Smart<span>Green</span></div>
+            
+            <div class="user-card">
+                <div class="avatar">👤</div>
+                <div class="name" id="sidebarName">เจ้าของกิจการ</div>
+                <div class="business" id="sidebarBusiness">-</div>
+            </div>
+
+            <nav class="menu">
+                <div class="menu-label">หลัก</div>
+                <a href="dashboard.html" class="menu-item active">📊 ภาพรวม</a>
+                <a href="recommend.html" class="menu-item">💡 คำแนะนำ</a>
+                <a href="input.html" class="menu-item">📝 กรอกข้อมูล</a>
+                <div class="menu-label">อื่นๆ</div>
+                <a href="about.html" class="menu-item">ℹ️ เกี่ยวกับเรา</a>
+                <a href="index.html" class="menu-item">🏠 หน้าแรก</a>
+            </nav>
+
+            <div class="sidebar-footer">v1.0 · Prototype</div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <div class="page-header">
+                <div>
+                    <h1>📊 ภาพรวมพลังงาน</h1>
+                    <div class="subtitle">สรุปการใช้พลังงานและแนวโน้มของคุณ</div>
+                </div>
+                <div class="header-actions">
+                    <a href="input.html" class="btn btn-outline">✏️ แก้ไขข้อมูล</a>
+                    <a href="recommend.html" class="btn btn-success">💡 ดูคำแนะนำ</a>
+                </div>
+            </div>
+
+            <!-- Stat Cards -->
+            <div class="grid-4" style="margin-bottom: 24px;">
+                <div class="stat-card">
+                    <div class="stat-label">💰 ค่าไฟเฉลี่ยต่อเดือน</div>
+                    <div class="stat-value" id="currentBill">-</div>
+                    <div class="stat-change" id="billChange">-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">⚡ การใช้ไฟฟ้าเฉลี่ยต่อเดือน</div>
+                    <div class="stat-value" id="currentKwh">-</div>
+                    <div class="stat-change" id="kwhChange">-</div>
+                </div>
+                <div class="stat-card" style="border-left: 4px solid #22c55e;">
+                    <div class="stat-label">💸 ประหยัดได้ (ประมาณการ)</div>
+                    <div class="stat-value" style="color: #22c55e;" id="monthlySaving">-</div>
+                    <div class="stat-change">บาท/เดือน (<span id="savingRateDisplay">-</span>)</div>
+                </div>
+                <div class="stat-card" style="border-left: 4px solid #3b82f6;">
+                    <div class="stat-label">🌍 ลด CO₂</div>
+                    <div class="stat-value" style="color: #3b82f6;" id="carbonReduce">-</div>
+                    <div class="stat-change">ตัน/ปี</div>
+                </div>
+            </div>
+
+            <!-- อัตราค่าไฟตามจังหวัด -->
+            <div class="card" style="margin-bottom: 24px; padding: 16px 24px; background: #f0fdf4;">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                    <div>
+                        <strong>📍 อัตราค่าไฟตามพื้นที่</strong>
+                        <span style="color:#475569; font-size:14px; margin-left:10px;" id="avgRateProvider">-</span>
+                    </div>
+                    <div>
+                        <span style="font-size:20px; font-weight:700; color:#0f172a;" id="avgRate">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart -->
+            <div class="card" style="margin-bottom: 24px; padding: 24px;">
+                <h3 style="margin: 0 0 16px; font-size: 16px;">📈 แนวโน้มค่าไฟย้อนหลังและคาดการณ์</h3>
+                <canvas id="trendChart" style="max-height: 280px;"></canvas>
+            </div>
+
+            <!-- Two Columns -->
+            <div class="grid-2" style="margin-bottom: 24px;">
+                <div class="card">
+                    <h3 style="margin: 0 0 16px; font-size: 16px;">🍩 สัดส่วนการใช้พลังงาน</h3>
+                    <canvas id="pieChart" style="max-height: 220px;"></canvas>
+                </div>
+                <div class="card">
+                    <h3 style="margin: 0 0 16px; font-size: 16px;">⏰ การใช้ไฟฟ้ารายชั่วโมง</h3>
+                    <canvas id="hourlyChart" style="max-height: 220px;"></canvas>
+                </div>
+            </div>
+
+            <!-- Solar Investment -->
+            <div class="card" style="margin-bottom: 24px;">
+                <h3 style="margin: 0 0 16px; font-size: 16px;">☀️ ค่าแน่นน้ำการลงทุน Solar (10 kW)</h3>
+                <div class="grid-4">
+                    <div>
+                        <div style="font-size: 12px; color: #64748b;">ค่าใช้จ่ายติดตั้ง</div>
+                        <div style="font-size: 22px; font-weight: 700; color: #0f172a;" id="solarCost">-</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 12px; color: #64748b;">ประหยัด/เดือน</div>
+                        <div style="font-size: 22px; font-weight: 700; color: #22c55e;" id="solarSaving">-</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 12px; color: #64748b;">ระยะเวลาคืนทุน</div>
+                        <div style="font-size: 22px; font-weight: 700; color: #f59e0b;" id="solarPayback">-</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 12px; color: #64748b;">ผลตอบแทน (ROI)</div>
+                        <div style="font-size: 22px; font-weight: 700; color: #3b82f6;" id="solarROI">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- คำแนะนำ -->
+            <div class="card" style="border-left: 4px solid #22c55e; margin-bottom: 24px;">
+                <h4 style="margin-bottom: 8px;">💡 คำแนะนำเบื้องต้น</h4>
+                <p style="font-size: 16px; color: #0f172a;" id="recommendationText">-</p>
+            </div>
+
+            <div style="text-align: center; padding: 20px 0 8px; color: #94a3b8; font-size: 13px; border-top: 1px solid #e2e8f0;">
+                &copy; 2026 SmartGreenEnergy · Prototype Version
+            </div>
+
+        </main>
+    </div>
+
+    <script src="js/calculator.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
