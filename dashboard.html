@@ -1,144 +1,455 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Green Energy - ภาพรวมพลังงาน</title>
-    <link rel="stylesheet" href="css/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - SmartGreenEnergy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@400;500;600;700&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+    <style>
+        /* Dashboard Specific */
+        .dashboard-hero {
+            background: var(--ink);
+            color: var(--text-on-dark);
+            padding: 40px 0 60px;
+        }
+        .dashboard-hero h1 {
+            font-size: 36px;
+        }
+        .dashboard-hero .sub {
+            color: var(--text-muted-dark);
+            font-size: 16px;
+            margin-top: 8px;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-top: 30px;
+        }
+        .kpi-card {
+            background: var(--ink-2);
+            border: 1px solid var(--line-dark);
+            border-radius: var(--radius-m);
+            padding: 20px 24px;
+        }
+        .kpi-card .label {
+            font-size: 13px;
+            color: var(--text-muted-dark);
+        }
+        .kpi-card .value {
+            font-family: 'Noto Serif Thai', serif;
+            font-size: 28px;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+        .kpi-card .change {
+            font-size: 13px;
+            margin-top: 4px;
+        }
+        .kpi-card .change.up {
+            color: #ef4444;
+        }
+        .kpi-card .change.down {
+            color: #22c55e;
+        }
+        .kpi-card.gold .value {
+            color: var(--gold);
+        }
+        .kpi-card.teal .value {
+            color: var(--teal);
+        }
+
+        .chart-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin: 40px 0;
+        }
+        .chart-card {
+            background: var(--paper);
+            border-radius: var(--radius-m);
+            padding: 24px;
+            border: 1px solid var(--line-light);
+        }
+        .chart-card h3 {
+            font-size: 16px;
+            margin-bottom: 16px;
+            color: var(--text-on-light);
+        }
+        .chart-card canvas {
+            max-height: 220px;
+        }
+
+        .section-card {
+            background: var(--paper);
+            border-radius: var(--radius-m);
+            padding: 30px;
+            border: 1px solid var(--line-light);
+            margin-bottom: 24px;
+        }
+        .section-card h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+        .section-card .desc {
+            color: var(--text-muted-light);
+            font-size: 14px;
+        }
+
+        .device-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 14px;
+            margin-top: 16px;
+        }
+        .device-item {
+            background: var(--paper-2);
+            border-radius: var(--radius-s);
+            padding: 14px 18px;
+            border: 1px solid var(--line-light);
+        }
+        .device-item .name {
+            font-weight: 600;
+            font-size: 15px;
+        }
+        .device-item .detail {
+            font-size: 13px;
+            color: var(--text-muted-light);
+        }
+
+        @media (max-width: 900px) {
+            .kpi-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .chart-grid {
+                grid-template-columns: 1fr;
+            }
+            .dashboard-hero h1 {
+                font-size: 28px;
+            }
+        }
+        @media (max-width: 480px) {
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="sidebar">
-        <div class="sidebar-header">Smart Green Energy</div>
-        <ul class="sidebar-menu">
-            <li><a href="index.html">หน้าหลัก</a></li>
-            <li class="active"><a href="dashboard.html">ภาพรวมพลังงาน</a></li>
-            <li><a href="input.html">บันทึกข้อมูลการใช้ไฟ</a></li>
-            <li><a href="recommend.html">แนะนำการลงทุน</a></li>
-            <li><a href="about.html">เกี่ยวกับเรา</a></li>
-        </ul>
-        <div class="sidebar-footer">2026 Smart Green Energy</div>
-    </div>
 
-    <div class="main-content">
-        <div class="top-bar">
-            <h1>ภาพรวมการใช้พลังงานและผลการวิเคราะห์</h1>
-            <a href="input.html" class="btn">แก้ไขข้อมูล</a>
+    <!-- ===== HEADER ===== -->
+    <header>
+        <div class="wrap">
+            <nav>
+                <div class="brand">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="5" stroke="#E3A542" stroke-width="1.6"/>
+                        <g stroke="#E3A542" stroke-width="1.6" stroke-linecap="round">
+                            <line x1="12" y1="1.5" x2="12" y2="4.2"/>
+                            <line x1="12" y1="19.8" x2="12" y2="22.5"/>
+                            <line x1="1.5" y1="12" x2="4.2" y2="12"/>
+                            <line x1="19.8" y1="12" x2="22.5" y2="12"/>
+                            <line x1="4.5" y1="4.5" x2="6.4" y2="6.4"/>
+                            <line x1="17.6" y1="17.6" x2="19.5" y2="19.5"/>
+                            <line x1="4.5" y1="19.5" x2="6.4" y2="17.6"/>
+                            <line x1="17.6" y1="6.4" x2="19.5" y2="4.5"/>
+                        </g>
+                    </svg>
+                    Smart<span style="color:#E3A542;">Green</span>Energy
+                </div>
+                <div class="navlinks">
+                    <a href="index.html">หน้าแรก</a>
+                    <a href="dashboard.html" style="color:#E3A542;">Dashboard</a>
+                    <a href="recommend.html">คำแนะนำ</a>
+                    <a href="about.html">เกี่ยวกับเรา</a>
+                </div>
+                <div class="navcta">
+                    <a href="index.html#analyzer" class="btn btn-gold">วิเคราะห์ใหม่</a>
+                </div>
+            </nav>
         </div>
+    </header>
 
-        <div class="metrics-grid">
-            <div class="metric-card">
-                <div class="title">ค่าไฟเฉลี่ยต่อเดือน</div>
-                <div class="value" id="currentBill">0 บาท</div>
-                <div class="subtext">คำนวณจากฐานข้อมูลผู้ใช้งาน</div>
-            </div>
-            <div class="metric-card">
-                <div class="title">การใช้ไฟเฉลี่ยต่อเดือน</div>
-                <div class="value" id="currentKwh">0 kWh</div>
-                <div class="subtext">อ้างอิงข้อมูลจริงประจำรอบบิล</div>
-            </div>
-            <div class="metric-card">
-                <div class="title">ค่าไฟที่คาดว่าจะประหยัดได้</div>
-                <div class="value" id="monthlySaving">0 บาท/เดือน</div>
-                <div class="subtext">ด้วยการติดตั้งระบบที่เหมาะสม</div>
-            </div>
-            <div class="metric-card">
-                <div class="title">ลดการปล่อย CO2</div>
-                <div class="value" id="carbonReduce">0 ตัน/ปี</div>
-                <div class="subtext">เทียบเท่าการดูดซับของธรรมชาติ</div>
-            </div>
-        </div>
+    <!-- ===== DASHBOARD HERO ===== -->
+    <section class="dashboard-hero">
+        <div class="wrap">
+            <div class="eyebrow" style="color:var(--gold);">ภาพรวมพลังงานของคุณ</div>
+            <h1>📊 Dashboard วิเคราะห์พลังงาน</h1>
+            <div class="sub">สรุปการใช้พลังงาน แนวโน้ม และคำแนะนำเบื้องต้นจากข้อมูลของคุณ</div>
 
-        <div class="grid-2">
-            <div class="panel">
-                <h2 class="panel-title">การใช้พลังงานรายวัน (kWh)</h2>
-                <canvas id="hourlyChart" height="140"></canvas>
-            </div>
-            <div class="panel">
-                <h2 class="panel-title">คำแนะนำการลงทุน</h2>
-                <p id="recommendationText" style="font-size: 14px; line-height: 1.6; margin-bottom: 16px; color: var(--text-main);">-</p>
-                <table class="data-table">
-                    <tr><td>งบประมาณลงทุน</td><td id="solarCost" style="font-weight: bold;">0 บาท</td></tr>
-                    <tr><td>ประหยัดต่อเดือน</td><td id="solarSaving" style="font-weight: bold; color: #2e7d32;">0 บาท</td></tr>
-                    <tr><td>ระยะเวลากืนทุน</td><td id="solarPayback" style="font-weight: bold;">0 ปี</td></tr>
-                    <tr><td>ผลตอบแทน (ROI)</td><td id="solarROI" style="font-weight: bold;">0%</td></tr>
-                </table>
-            </div>
-        </div>
-
-        <div class="grid-2">
-            <div class="panel">
-                <h2 class="panel-title">สัดส่วนการใช้พลังงานตามประเภทอุปกรณ์</h2>
-                <canvas id="ratioChart" height="140"></canvas>
-            </div>
-            <div class="panel">
-                <h2 class="panel-title">ค่าไฟฟ้าจริงเทียบกับการคาดการณ์ (Regression)</h2>
-                <canvas id="forecastChart" height="140"></canvas>
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="label">💰 ค่าไฟเฉลี่ยต่อเดือน</div>
+                    <div class="value" id="kpiCurrent">-</div>
+                    <div class="change" id="billChange">-</div>
+                </div>
+                <div class="kpi-card gold">
+                    <div class="label">💸 ประหยัดได้ (ประมาณการ)</div>
+                    <div class="value" id="kpiSaving">-</div>
+                    <div class="change" style="color:var(--gold);">บาท/เดือน</div>
+                </div>
+                <div class="kpi-card teal">
+                    <div class="label">🌍 ลด CO₂</div>
+                    <div class="value" id="kpiCarbon">-</div>
+                    <div class="change" style="color:var(--teal);">ตัน/ปี</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="label">📈 ผลตอบแทน (ROI)</div>
+                    <div class="value" id="kpiRoi">-</div>
+                    <div class="change" id="kpiPayback">-</div>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <section style="padding: 40px 0 80px; background: var(--paper);">
+        <div class="wrap">
+
+            <!-- Charts -->
+            <div class="chart-grid">
+                <div class="chart-card">
+                    <h3>📈 แนวโน้มค่าไฟย้อนหลังและคาดการณ์</h3>
+                    <canvas id="trendChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>🍩 สัดส่วนการใช้พลังงาน</h3>
+                    <canvas id="pieChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Solar Investment -->
+            <div class="section-card">
+                <h3>☀️ ค่าแน่นน้ำการลงทุน Solar</h3>
+                <div class="desc">ประมาณการจากข้อมูลที่คุณกรอก</div>
+                <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:16px; margin-top:16px;">
+                    <div>
+                        <div style="font-size:12px; color:var(--text-muted-light);">ขนาดระบบ</div>
+                        <div style="font-size:22px; font-weight:700; color:var(--ink);" id="solarSize">-</div>
+                    </div>
+                    <div>
+                        <div style="font-size:12px; color:var(--text-muted-light);">ค่าใช้จ่ายติดตั้ง</div>
+                        <div style="font-size:22px; font-weight:700; color:var(--ink);" id="solarCost">-</div>
+                    </div>
+                    <div>
+                        <div style="font-size:12px; color:var(--text-muted-light);">ประหยัด/เดือน</div>
+                        <div style="font-size:22px; font-weight:700; color:var(--teal-2);" id="solarSaving">-</div>
+                    </div>
+                    <div>
+                        <div style="font-size:12px; color:var(--text-muted-light);">ระยะเวลาคืนทุน</div>
+                        <div style="font-size:22px; font-weight:700; color:var(--gold-deep);" id="solarPayback">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommendation -->
+            <div class="section-card" style="border-left:4px solid var(--gold);">
+                <h3>💡 คำแนะนำเบื้องต้น</h3>
+                <div class="desc" id="recommendationText">กรุณากรอกข้อมูลในหน้ากรอกข้อมูลก่อน</div>
+                <div style="margin-top:16px; display:flex; gap:12px; flex-wrap:wrap;">
+                    <a href="recommend.html" class="btn btn-ink" style="font-size:14px; padding:10px 20px;">
+                        ดูคำแนะนำทั้งหมด →
+                    </a>
+                    <a href="index.html#analyzer" class="btn btn-outline-light" style="font-size:14px; padding:10px 20px; border-color:var(--line-light);">
+                        แก้ไขข้อมูล
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="wrap">
+            <div class="foot-grid">
+                <div class="foot-brand">🌱 SmartGreenEnergy</div>
+                <div class="foot-cols">
+                    <div>
+                        <h5>ผลิตภัณฑ์</h5>
+                        <a href="index.html#process">วิธีทำงาน</a>
+                        <a href="index.html#analyzer">เครื่องคำนวณ</a>
+                        <a href="index.html#pricing">แพ็กเกจ</a>
+                    </div>
+                    <div>
+                        <h5>บริษัท</h5>
+                        <a href="about.html">เกี่ยวกับเรา</a>
+                        <a href="#">ติดต่อ</a>
+                    </div>
+                </div>
+            </div>
+            <div class="foot-bottom">
+                <span>© 2026 SmartGreenEnergy — วิเคราะห์ก่อนตัดสินใจ</span>
+                <span>ตัวเลขทั้งหมดเป็นการประมาณการ ไม่ใช่คำแนะนำทางการเงิน</span>
+            </div>
+        </div>
+    </footer>
 
     <script src="js/calculator.js"></script>
     <script src="js/main.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const data = loadUserData();
-            const savings = calculateSavings(data.bill, data.business, data.budget);
-            const hourly = generateHourlyUsage(data.kwh);
+        // ============================================================
+        //  DASHBOARD SCRIPT
+        // ============================================================
+
+        let trendChartInstance = null;
+        let pieChartInstance = null;
+
+        function renderDashboardCharts(historical, future, pieData) {
+            const months = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+            const labels = [];
+            for (let i = -11; i <= 6; i++) {
+                if (i <= 0) labels.push('เดือนที่ ' + (i + 12));
+                else labels.push('+' + i + ' เดือน');
+            }
+
+            const trendCtx = document.getElementById('trendChart');
+            if (trendChartInstance) trendChartInstance.destroy();
+            if (trendCtx) {
+                trendChartInstance = new Chart(trendCtx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'ค่าไฟจริง',
+                            data: historical,
+                            borderColor: '#0F2118',
+                            backgroundColor: 'rgba(15,33,24,0.06)',
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 3
+                        }, {
+                            label: 'คาดการณ์',
+                            data: future,
+                            borderColor: '#E3A542',
+                            backgroundColor: 'rgba(227,165,66,0.08)',
+                            fill: true,
+                            borderDash: [6, 4],
+                            tension: 0.4,
+                            pointRadius: 4,
+                            pointBackgroundColor: '#E3A542'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: { usePointStyle: true, padding: 20, font: { family: 'IBM Plex Sans Thai', size: 11 } }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: { callback: function(v) { return v.toLocaleString(); } }
+                            },
+                            x: { ticks: { maxTicksLimit: 10 } }
+                        }
+                    }
+                });
+            }
+
+            const pieCtx = document.getElementById('pieChart');
+            if (pieChartInstance) pieChartInstance.destroy();
+            if (pieCtx && pieData) {
+                const labels = Object.keys(pieData);
+                const values = Object.values(pieData);
+                const colors = ['#3E7C82', '#8AA48D', '#E3A542', '#C9C2A6'];
+                pieChartInstance = new Chart(pieCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,
+                        datasets: [{ data: values, backgroundColor: colors.slice(0, values.length), borderWidth: 0 }]
+                    },
+                    options: {
+                        responsive: true,
+                        cutout: '62%',
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: { boxWidth: 10, font: { family: 'IBM Plex Sans Thai', size: 11 } }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        // ============================================================
+        //  โหลดข้อมูลและแสดง Dashboard
+        // ============================================================
+        async function loadDashboard() {
+            await loadAppData();
+
+            // โหลดข้อมูลผู้ใช้
+            const data = {
+                bill: parseFloat(localStorage.getItem('sg_bill')) || 24000,
+                kwh: parseFloat(localStorage.getItem('sg_kwh')) || 3800,
+                province: localStorage.getItem('sg_province') || 'กรุงเทพฯ',
+                area: parseFloat(localStorage.getItem('sg_area')) || 90,
+                business: localStorage.getItem('sg_business') || 'สำนักงาน',
+                budget: parseFloat(localStorage.getItem('sg_budget')) || 600000
+            };
+
+            // ถ้ายังไม่มีข้อมูล ใช้ค่าเริ่มต้น
+            if (!localStorage.getItem('sg_bill')) {
+                localStorage.setItem('sg_bill', '24000');
+                localStorage.setItem('sg_kwh', '3800');
+                localStorage.setItem('sg_province', 'กรุงเทพฯ');
+                localStorage.setItem('sg_area', '90');
+                localStorage.setItem('sg_business', 'สำนักงาน');
+                localStorage.setItem('sg_budget', '600000');
+            }
+
+            // คำนวณ
+            const savings = calculateSavings(data.bill, data.kwh, data.business, data.budget, appData);
             const historical = generateHistoricalData(data.bill);
             const future = predictFutureBill(historical);
+            const pieData = appData?.businesses?.[data.business]?.pieData || {
+                'เครื่องปรับอากาศ': 45,
+                'อุปกรณ์สำนักงาน': 25,
+                'แสงสว่าง': 15,
+                'อื่นๆ': 15
+            };
+            const solarInfo = appData?.solarInfo || { costPerKw: 35000, lifetimeYears: 25 };
 
-            // Hourly Chart
-            const ctxHourly = document.getElementById('hourlyChart').getContext('2d');
-            new Chart(ctxHourly, {
-                type: 'line',
-                data: {
-                    labels: Array.from({length: 24}, (_, i) => i + ':00'),
-                    datasets: [{
-                        label: 'kWh',
-                        data: hourly,
-                        borderColor: '#335c43',
-                        backgroundColor: 'rgba(51, 92, 67, 0.1)',
-                        fill: true,
-                        tension: 0.3
-                    }]
-                },
-                options: { responsive: true, plugins: { legend: { display: false } } }
-            });
+            // แสดง KPI
+            document.getElementById('kpiCurrent').textContent = fmtBaht(data.bill);
+            document.getElementById('kpiSaving').textContent = fmtBaht(savings.monthlySaving);
+            document.getElementById('kpiCarbon').textContent = savings.carbonReduction.toFixed(2);
+            document.getElementById('kpiRoi').textContent = savings.roi.toFixed(1) + '%';
+            document.getElementById('kpiPayback').textContent = savings.paybackPeriod.toFixed(1) + ' ปี';
 
-            // Ratio Chart
-            const ctxRatio = document.getElementById('ratioChart').getContext('2d');
-            new Chart(ctxRatio, {
-                type: 'doughnut',
-                data: {
-                    labels: ['เครื่องปรับอากาศ', 'อุปกรณ์ครัว/เครื่องจักร', 'แสงสว่าง', 'ระบบอื่นๆ'],
-                    datasets: [{
-                        data: [45, 25, 15, 15],
-                        backgroundColor: ['#335c43', '#557a62', '#8fa697', '#d1dcd5']
-                    }]
-                },
-                options: { responsive: true }
-            });
+            const prevBill = historical[historical.length - 2] || data.bill;
+            const billChange = calcPercentChange(data.bill, prevBill);
+            document.getElementById('billChange').textContent = (billChange > 0 ? '▲ ' : '▼ ') + Math.abs(billChange).toFixed(1) +
+                '%';
+            document.getElementById('billChange').className = 'change ' + (billChange > 0 ? 'up' : 'down');
 
-            // Forecast Chart
-            const ctxForecast = document.getElementById('forecastChart').getContext('2d');
-            const histLabels = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
-            const futureLabels = ['ม.ค.(+)', 'ก.พ.(+)', 'มี.ค.(+)', 'เม.ย.(+)', 'พ.ค.(+)', 'มิ.ย.(+)'];
-            
-            new Chart(ctxForecast, {
-                type: 'line',
-                data: {
-                    labels: histLabels,
-                    datasets: [{
-                        label: 'ค่าไฟฟ้าจริง',
-                        data: historical,
-                        borderColor: '#335c43',
-                        tension: 0.2
-                    }]
-                },
-                options: { responsive: true }
-            });
-        });
+            // Solar
+            const solarCost = 10 * (solarInfo.costPerKw || 35000);
+            const solarSaving = data.bill * 0.25;
+            const solarPayback = solarCost / solarSaving;
+            document.getElementById('solarSize').textContent = '10 kW';
+            document.getElementById('solarCost').textContent = fmtBaht(solarCost);
+            document.getElementById('solarSaving').textContent = fmtBaht(solarSaving);
+            document.getElementById('solarPayback').textContent = solarPayback.toFixed(1) + ' ปี';
+
+            // คำแนะนำ
+            document.getElementById('recommendationText').textContent = savings.recommendation;
+
+            // กราฟ
+            renderDashboardCharts(historical, future, pieData);
+        }
+
+        document.addEventListener('DOMContentLoaded', loadDashboard);
     </script>
+
 </body>
 </html>
