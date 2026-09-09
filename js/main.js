@@ -39,9 +39,6 @@ function saveUserDataFromForm() {
 function renderDashboard() {
     const data = loadUserData();
     const savings = calculateSavings(data.bill, data.business, data.budget);
-    const historical = generateHistoricalData(data.bill);
-    const future = predictFutureBill(historical);
-    const hourlyData = generateHourlyUsage(data.kwh);
 
     setElement('currentBill', data.bill.toLocaleString() + ' บาท');
     setElement('currentKwh', data.kwh.toLocaleString() + ' kWh');
@@ -52,6 +49,7 @@ function renderDashboard() {
     setElement('solarSaving', savings.monthlySaving.toLocaleString() + ' บาท');
     setElement('solarPayback', savings.paybackPeriod.toFixed(1) + ' ปี');
     setElement('solarROI', savings.roi.toFixed(1) + '%');
+    setElement('recommendationText', savings.recommendation);
 }
 
 function setElement(id, value) {
