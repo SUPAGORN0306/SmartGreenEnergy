@@ -1,155 +1,42 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>เกี่ยวกับเรา - SmartGreenEnergy</title>
-    <link rel="stylesheet" href="css/style.css" />
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Green Energy - เกี่ยวกับเรา</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="container">
-        <nav class="navbar">
-            <div class="logo">
-                <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                    <path d="M2 17l10 5 10-5"/>
-                    <path d="M2 12l10 5 10-5"/>
-                </svg>
-                Smart<span>Green</span>Energy
-            </div>
-            <div class="nav-links">
-                <a href="index.html">หน้าแรก</a>
-                <a href="input.html">กรอกข้อมูล</a>
-                <a href="dashboard.html">Dashboard</a>
-                <a href="recommend.html">คำแนะนำ</a>
-                <a href="about.html" class="active">เกี่ยวกับเรา</a>
-            </div>
-        </nav>
+    <div class="sidebar">
+        <div class="sidebar-header">Smart Green Energy</div>
+        <ul class="sidebar-menu">
+            <li><a href="index.html">หน้าหลัก</a></li>
+            <li><a href="dashboard.html">ภาพรวมพลังงาน</a></li>
+            <li><a href="input.html">บันทึกข้อมูลการใช้ไฟ</a></li>
+            <li><a href="recommend.html">แนะนำการลงทุน</a></li>
+            <li class="active"><a href="about.html">เกี่ยวกับเรา</a></li>
+        </ul>
+        <div class="sidebar-footer">2026 Smart Green Energy</div>
+    </div>
 
-        <h2 class="page-title">เกี่ยวกับ SmartGreenEnergy</h2>
-        <p class="page-subtitle">ผู้ช่วยอัจฉริยะเพื่อการเปลี่ยนผ่านสู่พลังงานสะอาด</p>
-
-        <div class="vision-card">
-            <h3>วิสัยทัศน์ของเรา</h3>
-            <p>"เราไม่ได้ขาย Solar เรา <strong style="color: #22c55e;">ขายความมั่นใจ</strong> ในการลงทุนด้านพลังงาน"</p>
+    <div class="main-content">
+        <div class="top-bar">
+            <h1>เกี่ยวกับระบบและโมเดลธุรกิจ</h1>
         </div>
 
-        <h3 class="section-title">ทำไมต้องเลือกเรา?</h3>
+        <div class="panel">
+            <h2 class="panel-title">จุดเด่นที่แตกต่างจากผู้ให้บริการทั่วไป</h2>
+            <p style="line-height: 1.6; margin-bottom: 16px; color: var(--text-main);">
+                ระบบ Smart Green Energy พัฒนาขึ้นเพื่อแก้ปัญหาการวิเคราะห์พลังงานที่ไม่แม่นยำ โดยไม่ผูกขาดกับแบรนด์อุปกรณ์ใดแบรนด์หนึ่ง แต่ใช้หลักการวิเคราะห์เชิงข้อมูล (Data-Driven Analysis) เพื่อแนะนำโซลูชันที่คุ้มค่าที่สุดต่อผู้ใช้งานจริง
+            </p>
 
-        <div class="compare-card">
-            <h4>ต่างจากพนักงานขาย Solar อย่างไร?</h4>
-            <div class="compare-grid">
-                <div class="compare-bad">
-                    <h5>พนักงานขาย Solar</h5>
-                    <ul><li>ขายของอย่างเดียว</li><li>ใช้สูตรสำเร็จรูป</li><li>ได้เงินไม่ว่าคุณจะประหยัดหรือไม่</li><li>แนะนำเฉพาะ Solar เท่านั้น</li></ul>
-                </div>
-                <div class="compare-good">
-                    <h5>SmartGreenEnergy</h5>
-                    <ul><li>วิเคราะห์แบบองค์รวม</li><li>ใช้ AI และข้อมูลจริง</li><li>ได้เงินเมื่อคุณประหยัดจริงเท่านั้น</li><li>แนะนำทางเลือกที่ดีที่สุด</li></ul>
-                </div>
-            </div>
+            <h2 class="panel-title" style="margin-top: 24px;">รูปแบบรายได้ของแพลตฟอร์ม (Business Model)</h2>
+            <ul style="margin-left: 20px; line-height: 1.8; color: var(--text-main);">
+                <li><strong>SaaS (Software as a Service):</strong> ค่าบริการระบบติดตามและวิเคราะห์ข้อมูลการใช้พลังงานรายเดือน</li>
+                <li><strong>Hardware Sales:</strong> รายได้จากการจัดหาและติดตั้งมิเตอร์วัดพลังงานและอุปกรณ์ IoT</li>
+                <li><strong>Performance Fee:</strong> ส่วนแบ่งจากค่าไฟที่ประหยัดได้จริงตามสัญญาความร่วมมือกับลูกค้า</li>
+            </ul>
         </div>
-
-        <div class="devices-card">
-            <h4>มีอุปกรณ์อื่นนอกจาก Solar มั้ย?</h4>
-            <p style="color: #475569; margin: 8px 0 12px;">มี! เราแนะนำอุปกรณ์ที่หลากหลายตามความเหมาะสม:</p>
-            <div class="devices-grid">
-                <div class="device-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M9 18h6"/><path d="M12 2v4"/><path d="M12 18v4"/><path d="M4.93 4.93l2.83 2.83"/><path d="M16.24 16.24l2.83 2.83"/><path d="M2 12h4"/><path d="M18 12h4"/><path d="M4.93 19.07l2.83-2.83"/><path d="M16.24 7.76l2.83-2.83"/>
-                    </svg>
-                    <strong>LED Lighting</strong><p>ประหยัด 50-80%</p>
-                </div>
-                <div class="device-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 2v4"/><path d="M12 18v4"/><path d="M4.93 4.93l2.83 2.83"/><path d="M16.24 16.24l2.83 2.83"/><path d="M2 12h4"/><path d="M18 12h4"/><path d="M4.93 19.07l2.83-2.83"/><path d="M16.24 7.76l2.83-2.83"/>
-                    </svg>
-                    <strong>Inverter AC</strong><p>ประหยัด 30-50%</p>
-                </div>
-                <div class="device-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-                    </svg>
-                    <strong>VFD</strong><p>ประหยัด 10-30%</p>
-                </div>
-                <div class="device-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
-                    </svg>
-                    <strong>PFC</strong><p>ประหยัด 10-20%</p>
-                </div>
-                <div class="device-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
-                    </svg>
-                    <strong>Solar</strong><p>ประหยัด 25-40%</p>
-                </div>
-                <div class="device-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
-                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-                    </svg>
-                    <strong>BESS</strong><p>กักเก็บพลังงาน</p>
-                </div>
-                <div class="device-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
-                        <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
-                    </svg>
-                    <strong>BMS</strong><p>บริหารจัดการอาคาร</p>
-                </div>
-                <div class="device-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 12a9 9 0 0 1-9 9m9-9a9 9 0 0 0-9-9m9 9H3m9 9a9 9 0 0 1-9-9m9 9c1.66 0 3-4.03 3-9s-1.34-9-3-9m0 18c-1.66 0-3-4.03-3-9s1.34-9 3-9"/>
-                    </svg>
-                    <strong>EMS</strong><p>บริหารจัดการพลังงาน</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="pricing-card">
-            <h4>ค่าสมาชิกยั่งยืนมั้ย?</h4>
-            <p style="color: #475569; margin: 8px 0 12px;">เราใช้โมเดลธุรกิจที่ยั่งยืน:</p>
-            <div class="pricing-grid">
-                <div class="pricing-item">
-                    <div class="pricing-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
-                    <strong>SaaS รายเดือน</strong>
-                    <p>1,500-5,000 บาท/เดือน<br/>อัปเดตข้อมูลและฟีเจอร์ใหม่ตลอด</p>
-                </div>
-                <div class="pricing-item">
-                    <div class="pricing-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg></div>
-                    <strong>Performance Fee</strong>
-                    <p>ได้เงิน <strong>10%</strong> จากการประหยัดจริง<br/>จูงใจให้เราทำงานเต็มที่</p>
-                </div>
-                <div class="pricing-item">
-                    <div class="pricing-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-                    <strong>Hardware</strong>
-                    <p>ขายมิเตอร์อัจฉริยะและ IoT<br/>ติดตามผลแบบ Real-time</p>
-                </div>
-            </div>
-        </div>
-
-        <h3 class="section-title">ทีมงานของเรา</h3>
-        <div class="team-grid">
-            <div class="team-card">
-                <div class="team-avatar"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-                <h4>SUPAGORN</h4><p>Full-Stack Developer</p>
-            </div>
-            <div class="team-card">
-                <div class="team-avatar"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-                <h4>[ชื่อเพื่อน]</h4><p>Data Scientist / AI Engineer</p>
-            </div>
-        </div>
-
-        <div class="contact-card">
-            <h3>ติดต่อเรา</h3>
-            <p>smartgreenenergy@email.com</p>
-            <p>0XX-XXX-XXXX</p>
-            <p style="margin-top: 8px; opacity: 0.7; font-size: 14px;">https://supagorn0306.github.io/SmartGreenEnergy</p>
-        </div>
-
-        <footer>&copy; 2026 SmartGreenEnergy · Prototype Version</footer>
     </div>
 </body>
 </html>
