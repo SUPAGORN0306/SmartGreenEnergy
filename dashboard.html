@@ -5,144 +5,212 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard - SmartGreenEnergy</title>
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
-    <div class="container">
+    <div class="dashboard-wrapper">
 
-        <!-- ===== NAVBAR ===== -->
-        <nav class="navbar">
-            <div class="logo">🌱 Smart<span>Green</span>Energy</div>
-            <div class="nav-links">
-                <a href="index.html">หน้าแรก</a>
-                <a href="input.html">กรอกข้อมูล</a>
-                <a href="dashboard.html" class="active">Dashboard</a>
-                <a href="recommend.html">คำแนะนำ</a>
-                <a href="about.html">เกี่ยวกับเรา</a>
+        <!-- ===== SIDEBAR ===== -->
+        <aside class="sidebar">
+            <div class="brand">
+                <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                    <path d="M2 17l10 5 10-5"/>
+                    <path d="M2 12l10 5 10-5"/>
+                </svg>
+                <span class="logo-text">Smart<span>Green</span></span>
             </div>
-        </nav>
 
-        <!-- ===== HEADER ===== -->
-        <h2 style="text-align: center; font-size: 28px; color: #1a3a5c; margin-bottom: 8px;">
-            📊 Dashboard วิเคราะห์พลังงาน
-        </h2>
-        <p style="text-align: center; color: #7f8c8d; margin-bottom: 30px;">
-            ภาพรวมการใช้พลังงานและแนวโน้มในอนาคต
-        </p>
+            <div class="user-card">
+                <svg class="avatar-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+                <div class="name" id="sidebarName">Supagorn</div>
+                <div class="business" id="sidebarBusiness">เจ้าของกิจการ</div>
+            </div>
 
-        <!-- ===== KEY METRICS ===== -->
-        <div class="metrics-grid">
+            <nav class="menu">
+                <div class="menu-label">หลัก</div>
+                <a href="dashboard.html" class="menu-item active">
+                    <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7" rx="1"/>
+                        <rect x="14" y="3" width="7" height="7" rx="1"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1"/>
+                        <rect x="14" y="14" width="7" height="7" rx="1"/>
+                    </svg>
+                    ภาพรวม
+                </a>
+                <a href="recommend.html" class="menu-item">
+                    <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M9 12l2 2 4-4"/>
+                    </svg>
+                    คำแนะนำ
+                </a>
+                <a href="input.html" class="menu-item">
+                    <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 20h9"/>
+                        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                    </svg>
+                    กรอกข้อมูล
+                </a>
 
-            <!-- ค่าไฟเฉลี่ยต่อเดือน -->
-            <div class="card card-blue">
-                <h3>💰 ค่าไฟเฉลี่ยต่อเดือน</h3>
-                <div class="value" id="currentBill">-</div>
-                <div class="sub">
-                    <span id="billChange" style="font-weight:600;">-</span> จากช่วงก่อนหน้า
+                <div class="menu-label">อื่นๆ</div>
+                <a href="about.html" class="menu-item">
+                    <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="12" y1="16" x2="12" y2="12"/>
+                        <line x1="12" y1="8" x2="12.01" y2="8"/>
+                    </svg>
+                    เกี่ยวกับเรา
+                </a>
+                <a href="index.html" class="menu-item">
+                    <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                        <polyline points="16 17 21 12 16 7"/>
+                        <line x1="21" y1="12" x2="9" y2="12"/>
+                    </svg>
+                    หน้าแรก
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="menu-item" style="font-size:12px; opacity:0.4; cursor:default;">
+                    v1.0 · Prototype
+                </div>
+            </div>
+        </aside>
+
+        <!-- ===== MAIN CONTENT ===== -->
+        <main class="main-content">
+
+            <div class="page-header">
+                <div>
+                    <h1>ภาพรวมพลังงาน</h1>
+                    <div class="subtitle">สรุปการใช้พลังงานและแนวโน้มของคุณ</div>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-outline" onclick="location.href='input.html'">
+                        <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 20h9"/>
+                            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                        </svg>
+                        แก้ไขข้อมูล
+                    </button>
+                    <button class="btn btn-success" onclick="location.href='recommend.html'">
+                        <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            <path d="M9 12l2 2 4-4"/>
+                        </svg>
+                        ดูคำแนะนำ
+                    </button>
                 </div>
             </div>
 
-            <!-- การใช้ไฟฟ้าเฉลี่ยต่อเดือน -->
-            <div class="card card-green">
-                <h3>⚡ การใช้ไฟฟ้าเฉลี่ยต่อเดือน</h3>
-                <div class="value" id="currentKwh">-</div>
-                <div class="sub">
-                    <span id="kwhChange" style="font-weight:600;">-</span> จากช่วงก่อนหน้า
+            <!-- ===== STAT CARDS ===== -->
+            <div class="grid-4" style="margin-bottom: 24px;">
+                <div class="stat-card">
+                    <div class="stat-label">
+                        <svg class="label-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                        ค่าไฟเฉลี่ยต่อเดือน
+                    </div>
+                    <div class="stat-value" id="currentBill">-</div>
+                    <div class="stat-change" id="billChange">-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">
+                        <svg class="label-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                            <path d="M2 17l10 5 10-5"/>
+                            <path d="M2 12l10 5 10-5"/>
+                        </svg>
+                        การใช้ไฟฟ้าเฉลี่ยต่อเดือน
+                    </div>
+                    <div class="stat-value" id="currentKwh">-</div>
+                    <div class="stat-change" id="kwhChange">-</div>
+                </div>
+                <div class="stat-card" style="border-left: 4px solid #22c55e;">
+                    <div class="stat-label">
+                        <svg class="label-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+                        </svg>
+                        ประหยัดได้ (ประมาณการ)
+                    </div>
+                    <div class="stat-value" style="color: #22c55e;" id="monthlySaving">-</div>
+                    <div class="stat-change" style="color: #22c55e;">บาท/เดือน</div>
+                </div>
+                <div class="stat-card" style="border-left: 4px solid #3b82f6;">
+                    <div class="stat-label">
+                        <svg class="label-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                        ลด CO₂
+                    </div>
+                    <div class="stat-value" style="color: #3b82f6;" id="carbonReduce">-</div>
+                    <div class="stat-change">ตัน/ปี</div>
                 </div>
             </div>
 
-            <!-- ค่าไฟที่คาดว่าจะประหยัดได้ -->
-            <div class="card card-orange">
-                <h3>💸 ค่าไฟที่คาดว่าจะประหยัดได้</h3>
-                <div class="value" id="monthlySaving">-</div>
-                <div class="sub">บาท/เดือน ด้วยการปรับปรุง</div>
+            <!-- ===== CHART ===== -->
+            <div class="card" style="margin-bottom: 24px; padding: 24px;">
+                <h3 style="margin: 0 0 16px; font-size: 16px; color: #334155;">
+                    แนวโน้มค่าไฟย้อนหลังและคาดการณ์
+                </h3>
+                <canvas id="trendChart" style="max-height: 280px;"></canvas>
             </div>
 
-            <!-- ลดการปล่อย CO₂ -->
-            <div class="card card-green">
-                <h3>🌍 ลดการปล่อย CO₂</h3>
-                <div class="value" id="carbonReduce">-</div>
-                <div class="sub">ตัน/ปี</div>
+            <!-- ===== TWO COLUMNS ===== -->
+            <div class="grid-2" style="margin-bottom: 24px;">
+                <div class="card">
+                    <h3 style="margin: 0 0 16px; font-size: 16px; color: #334155;">
+                        สัดส่วนการใช้พลังงาน
+                    </h3>
+                    <canvas id="pieChart" style="max-height: 220px;"></canvas>
+                </div>
+                <div class="card">
+                    <h3 style="margin: 0 0 16px; font-size: 16px; color: #334155;">
+                        การใช้ไฟฟ้ารายชั่วโมง
+                    </h3>
+                    <canvas id="hourlyChart" style="max-height: 220px;"></canvas>
+                </div>
             </div>
 
-        </div>
+            <!-- ===== SOLAR INVESTMENT ===== -->
+            <div class="card" style="margin-bottom: 24px;">
+                <h3 style="margin: 0 0 16px; font-size: 16px; color: #334155;">
+                    ค่าแน่นน้ำการลงทุน Solar
+                </h3>
+                <div class="grid-4">
+                    <div>
+                        <div style="font-size: 12px; color: #64748b;">ขนาดระบบ</div>
+                        <div style="font-size: 22px; font-weight: 700; color: #0f172a;" id="solarSize">10 kW</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 12px; color: #64748b;">ค่าใช้จ่ายติดตั้ง</div>
+                        <div style="font-size: 22px; font-weight: 700; color: #0f172a;" id="solarCost">-</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 12px; color: #64748b;">ประหยัด/เดือน</div>
+                        <div style="font-size: 22px; font-weight: 700; color: #22c55e;" id="solarSaving">-</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 12px; color: #64748b;">ระยะเวลาคืนทุน</div>
+                        <div style="font-size: 22px; font-weight: 700; color: #f59e0b;" id="solarPayback">-</div>
+                    </div>
+                </div>
+            </div>
 
-        <!-- ===== TREND CHART ===== -->
-        <div style="background: #f8fafc; border-radius: 16px; padding: 20px; margin: 25px 0;">
-            <canvas id="trendChart"></canvas>
-        </div>
+            <div style="text-align: center; padding: 20px 0 8px; color: #94a3b8; font-size: 13px; border-top: 1px solid #e2e8f0;">
+                &copy; 2026 SmartGreenEnergy · Prototype Version
+            </div>
 
-        <!-- ===== SOLAR INVESTMENT ===== -->
-        <h3 class="section-title">☀️ ค่าแน่นน้ำการลงทุน Solar</h3>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin: 15px 0;">
-            <div class="card" style="text-align: center;">
-                <div style="font-size: 28px; font-weight: 700; color: #1a3a5c;" id="solarSize">10 kW</div>
-                <div style="color: #7f8c8d; font-size: 14px;">ขนาดระบบ</div>
-            </div>
-            <div class="card" style="text-align: center;">
-                <div style="font-size: 28px; font-weight: 700; color: #1a3a5c;" id="solarCost">-</div>
-                <div style="color: #7f8c8d; font-size: 14px;">ค่าใช้จ่ายติดตั้ง</div>
-            </div>
-            <div class="card" style="text-align: center;">
-                <div style="font-size: 28px; font-weight: 700; color: #2ecc71;" id="solarSaving">-</div>
-                <div style="color: #7f8c8d; font-size: 14px;">ประหยัด/เดือน</div>
-            </div>
-            <div class="card" style="text-align: center;">
-                <div style="font-size: 28px; font-weight: 700; color: #f39c12;" id="solarPayback">-</div>
-                <div style="color: #7f8c8d; font-size: 14px;">ระยะเวลาคืนทุน</div>
-            </div>
-            <div class="card" style="text-align: center;">
-                <div style="font-size: 28px; font-weight: 700; color: #3498db;" id="solarROI">-</div>
-                <div style="color: #7f8c8d; font-size: 14px;">ผลตอบแทน (ROI)</div>
-            </div>
-            <div class="card" style="text-align: center;">
-                <div style="font-size: 28px; font-weight: 700; color: #1a3a5c;" id="solarLifetime">-</div>
-                <div style="color: #7f8c8d; font-size: 14px;">อายุการใช้งาน</div>
-            </div>
-        </div>
-
-        <!-- ===== TWO COLUMNS: PIE + HOURLY ===== -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin: 25px 0;">
-            <!-- Pie Chart -->
-            <div style="background: #f8fafc; border-radius: 16px; padding: 20px;">
-                <h4 style="text-align: center; color: #1a3a5c; margin-bottom: 10px;">🍩 สัดส่วนการใช้พลังงาน</h4>
-                <canvas id="pieChart"></canvas>
-            </div>
-            <!-- Hourly Chart -->
-            <div style="background: #f8fafc; border-radius: 16px; padding: 20px;">
-                <h4 style="text-align: center; color: #1a3a5c; margin-bottom: 10px;">⏰ การใช้ไฟฟ้ารายชั่วโมง</h4>
-                <canvas id="hourlyChart"></canvas>
-            </div>
-        </div>
-
-        <!-- ===== ENVIRONMENTAL IMPACT ===== -->
-        <h3 class="section-title">🌿 ผลกระทบต่อสิ่งแวดล้อม</h3>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 15px 0;">
-            <div class="card card-green" style="text-align: center;">
-                <div style="font-size: 32px; font-weight: 700; color: #2ecc71;" id="carbonReduce2">-</div>
-                <div style="color: #7f8c8d; font-size: 14px;">ลด CO₂ ได้ (ตัน/ปี)</div>
-            </div>
-            <div class="card card-blue" style="text-align: center;">
-                <div style="font-size: 32px; font-weight: 700; color: #3498db;" id="carbonCurrent">-</div>
-                <div style="color: #7f8c8d; font-size: 14px;">การปล่อย CO₂ ปัจจุบัน (ตัน/ปี)</div>
-            </div>
-            <div class="card card-orange" style="text-align: center;">
-                <div style="font-size: 32px; font-weight: 700; color: #f39c12;">2,100</div>
-                <div style="color: #7f8c8d; font-size: 14px;">เทียบเท่าการลดใช้รถ (กม./ปี)</div>
-            </div>
-        </div>
-
-        <!-- ===== BUTTONS ===== -->
-        <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin: 25px 0 10px;">
-            <a href="input.html" class="btn btn-secondary">✏️ แก้ไขข้อมูล</a>
-            <a href="recommend.html" class="btn">💡 ดูคำแนะนำทั้งหมด →</a>
-        </div>
-
-        <!-- ===== FOOTER ===== -->
-        <footer>
-            © 2026 SmartGreenEnergy · Prototype Version
-        </footer>
-
+        </main>
     </div>
 
     <script src="js/calculator.js"></script>
