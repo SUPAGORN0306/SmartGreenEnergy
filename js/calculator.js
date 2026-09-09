@@ -41,7 +41,7 @@ function calculateSavings(bill, businessType, budget) {
     const paybackPeriod = monthlySaving > 0 ? budget / monthlySaving : 999;
 
     const kwhPerMonth = bill / 5; 
-    const carbonPerYear = (kwhPerMonth * 12 * 0.5) / 1000; // ตัน CO2 ต่อปี
+    const carbonPerYear = (kwhPerMonth * 12 * 0.5) / 1000; 
     const carbonReduction = carbonPerYear * savingRate;
 
     return {
@@ -58,7 +58,6 @@ function calculateSavings(bill, businessType, budget) {
 
 function generateHistoricalData(currentBill, months = 12) {
     const data = [];
-    // คำนวณแนวโน้มย้อนหลังแบบมีทิศทางคงที่ ไม่อาศัยการสุ่ม
     for (let i = 0; i < months; i++) {
         const factor = 0.85 + (i * 0.012);
         data.push(Math.round(currentBill * factor));
@@ -86,11 +85,6 @@ function predictFutureBill(historicalData, months = 6) {
         predictions.push(Math.round(slope * i + intercept));
     }
     return predictions;
-}
-
-function calcPercentChange(current, previous) {
-    if (previous === 0) return 0;
-    return Math.round(((current - previous) / previous) * 100 * 10) / 10;
 }
 
 function generateHourlyUsage(currentKwh) {
