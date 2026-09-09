@@ -1,9 +1,3 @@
-/* ============================================================
-   STYLE.CSS - SmartGreenEnergy
-   พลังงานอัจฉริยะ วิเคราะห์และแนะนำด้วย AI
-   ============================================================ */
-
-/* ---------- RESET ---------- */
 * {
     margin: 0;
     padding: 0;
@@ -26,7 +20,6 @@ body {
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
 }
 
-/* ---------- NAVBAR ---------- */
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -83,7 +76,6 @@ body {
     color: #ffffff;
 }
 
-/* ---------- BUTTONS ---------- */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -148,7 +140,6 @@ body {
     transform: translateY(-2px);
 }
 
-/* ---------- HERO ---------- */
 .hero {
     text-align: center;
     padding: 40px 20px 30px;
@@ -174,7 +165,6 @@ body {
     line-height: 1.6;
 }
 
-/* ---------- STEPS ---------- */
 .steps {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -224,7 +214,6 @@ body {
     color: #94a3b8;
 }
 
-/* ---------- STATS ---------- */
 .stats {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -244,7 +233,6 @@ body {
     font-size: 14px;
 }
 
-/* ---------- WHY US ---------- */
 .why-us {
     background: #f8fafc;
     border-radius: 16px;
@@ -293,7 +281,6 @@ body {
     font-size: 13px;
 }
 
-/* ---------- PAGE TITLE ---------- */
 .page-title {
     text-align: center;
     font-size: 28px;
@@ -313,7 +300,6 @@ body {
     margin: 30px 0 16px;
 }
 
-/* ---------- FORM ---------- */
 .form-group {
     margin-bottom: 20px;
 }
@@ -355,7 +341,6 @@ body {
     gap: 20px;
 }
 
-/* ---------- VISION CARD ---------- */
 .vision-card {
     background: #f0fdf4;
     border-radius: 16px;
@@ -377,7 +362,6 @@ body {
     margin-top: 8px;
 }
 
-/* ---------- COMPARE ---------- */
 .compare-card {
     background: #ffffff;
     border-radius: 16px;
@@ -434,7 +418,6 @@ body {
     padding: 3px 0;
 }
 
-/* ---------- DEVICES ---------- */
 .devices-card {
     background: #ffffff;
     border-radius: 16px;
@@ -481,7 +464,6 @@ body {
     color: #64748b;
 }
 
-/* ---------- PRICING ---------- */
 .pricing-card {
     background: #ffffff;
     border-radius: 16px;
@@ -534,7 +516,6 @@ body {
     margin-top: 4px;
 }
 
-/* ---------- TEAM ---------- */
 .team-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -572,7 +553,6 @@ body {
     font-size: 14px;
 }
 
-/* ---------- CONTACT ---------- */
 .contact-card {
     background: linear-gradient(135deg, #0f172a, #22c55e);
     color: #ffffff;
@@ -590,7 +570,6 @@ body {
     margin: 4px 0;
 }
 
-/* ---------- FOOTER ---------- */
 footer {
     text-align: center;
     padding: 25px 0 10px;
@@ -600,37 +579,29 @@ footer {
     margin-top: 30px;
 }
 
-/* ---------- RESPONSIVE ---------- */
 @media (max-width: 768px) {
     .container {
         padding: 20px;
     }
-
     .navbar {
         flex-direction: column;
         text-align: center;
     }
-
     .navbar .nav-links {
         justify-content: center;
     }
-
     .hero h1 {
         font-size: 28px;
     }
-
     .form-row {
         grid-template-columns: 1fr;
     }
-
     .compare-grid {
         grid-template-columns: 1fr;
     }
-
     .team-grid {
         grid-template-columns: 1fr;
     }
-
     .pricing-grid {
         grid-template-columns: 1fr;
     }
@@ -640,11 +611,9 @@ footer {
     .steps {
         grid-template-columns: 1fr;
     }
-
     .stats {
         grid-template-columns: 1fr 1fr;
     }
-
     .devices-grid {
         grid-template-columns: 1fr 1fr;
     }
