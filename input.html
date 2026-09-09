@@ -1,65 +1,35 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>กรอกข้อมูล - SmartGreenEnergy</title>
-    <link rel="stylesheet" href="css/style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Green Energy - บันทึกข้อมูล</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="container">
-        <nav class="navbar">
-            <div class="logo">🌱 Smart<span>Green</span>Energy</div>
-            <div class="nav-links">
-                <a href="index.html">หน้าแรก</a>
-                <a href="input.html" class="active">กรอกข้อมูล</a>
-                <a href="dashboard.html">Dashboard</a>
-                <a href="recommend.html">คำแนะนำ</a>
-                <a href="about.html">เกี่ยวกับเรา</a>
-            </div>
-        </nav>
+    <div class="sidebar">
+        <div class="sidebar-header">Smart Green Energy</div>
+        <ul class="sidebar-menu">
+            <li><a href="index.html">หน้าหลัก</a></li>
+            <li><a href="dashboard.html">ภาพรวมพลังงาน</a></li>
+            <li class="active"><a href="input.html">บันทึกข้อมูลการใช้ไฟ</a></li>
+            <li><a href="recommend.html">แนะนำการลงทุน</a></li>
+            <li><a href="about.html">เกี่ยวกับเรา</a></li>
+        </ul>
+        <div class="sidebar-footer">2026 Smart Green Energy</div>
+    </div>
 
-        <h2 class="page-title">📝 กรอกข้อมูลการใช้พลังงาน</h2>
-        <p class="page-subtitle">ข้อมูลของคุณจะถูกเก็บไว้ในเครื่องเท่านั้น ปลอดภัย 100%</p>
+    <div class="main-content">
+        <div class="top-bar">
+            <h1>กรอกข้อมูลการใช้พลังงาน</h1>
+        </div>
 
-        <form id="energyForm" onsubmit="event.preventDefault(); saveUserData();">
-            <div class="form-row">
+        <div class="panel" style="max-width: 600px;">
+            <h2 class="panel-title">ระบุข้อมูลกิจการหรืออาคารของคุณ</h2>
+            <form onsubmit="event.preventDefault(); saveUserDataFromForm();">
                 <div class="form-group">
-                    <label>💰 ค่าไฟฟ้ารายเดือน <span class="required">*</span></label>
-                    <input type="number" id="bill" placeholder="เช่น 50000" required />
-                </div>
-                <div class="form-group">
-                    <label>⚡ ปริมาณการใช้ไฟฟ้า (kWh) <span class="required">*</span></label>
-                    <input type="number" id="kwh" placeholder="เช่น 5000" required />
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label>📍 จังหวัด</label>
-                    <select id="province">
-                        <option value="">-- เลือก --</option>
-                        <option>กรุงเทพฯ</option>
-                        <option>เชียงใหม่</option>
-                        <option>ขอนแก่น</option>
-                        <option>ภูเก็ต</option>
-                        <option>ชลบุรี</option>
-                        <option>นครราชสีมา</option>
-                        <option>เชียงราย</option>
-                        <option>สงขลา</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>📐 ขนาดพื้นที่ (ตร.ม.)</label>
-                    <input type="number" id="area" placeholder="เช่น 200" />
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label>🏢 ประเภทกิจการ <span class="required">*</span></label>
-                    <select id="business" required>
-                        <option value="">-- เลือก --</option>
+                    <label for="business">ประเภทธุรกิจ</label>
+                    <select id="business" class="form-control" onchange="fillDefaultExample(this.value)">
                         <option value="ร้านอาหาร">ร้านอาหาร</option>
                         <option value="สำนักงาน">สำนักงาน</option>
                         <option value="โรงงาน">โรงงาน</option>
@@ -68,32 +38,41 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>💰 งบประมาณลงทุน (บาท) <span class="required">*</span></label>
-                    <input type="number" id="budget" placeholder="เช่น 500000" required />
+                    <label for="bill">ค่าไฟฟ้าเฉลี่ยต่อเดือน (บาท)</label>
+                    <input type="number" id="bill" class="form-control" value="25000" required>
                 </div>
-            </div>
-
-            <div style="display: flex; gap: 15px; margin-top: 25px; flex-wrap: wrap;">
-                <button type="submit" class="btn" style="flex: 1; min-width: 150px;">
-                    📊 เริ่มวิเคราะห์
-                </button>
-                <button type="button" class="btn btn-secondary" onclick="loadSampleData()" style="flex: 0.5; min-width: 120px;">
-                    📥 โหลดตัวอย่าง
-                </button>
-                <button type="reset" class="btn btn-secondary" style="flex: 0.3; min-width: 80px;">
-                    🔄 ล้าง
-                </button>
-            </div>
-
-            <p style="text-align: center; color: #94a3b8; font-size: 13px; margin-top: 20px;">
-                * ข้อมูลจะถูกบันทึกในเครื่องเพื่อแสดงผล Dashboard
-            </p>
-        </form>
-
-        <footer>&copy; 2026 SmartGreenEnergy · Prototype Version</footer>
+                <div class="form-group">
+                    <label for="kwh">ปริมาณการใช้ไฟฟ้าเฉลี่ยต่อเดือน (kWh)</label>
+                    <input type="number" id="kwh" class="form-control" value="2500" required>
+                </div>
+                <div class="form-group">
+                    <label for="budget">งบประมาณลงทุนโครงการ (บาท)</label>
+                    <input type="number" id="budget" class="form-control" value="200000" required>
+                </div>
+                <div class="form-group">
+                    <label for="province">จังหวัด</label>
+                    <input type="text" id="province" class="form-control" value="กรุงเทพมหานคร">
+                </div>
+                <div class="form-group">
+                    <label for="area">พื้นที่ใช้สอย (ตารางเมตร)</label>
+                    <input type="number" id="area" class="form-control" value="150">
+                </div>
+                <button type="submit" class="btn">บันทึกและคำนวณผล</button>
+            </form>
+        </div>
     </div>
 
     <script src="js/calculator.js"></script>
     <script src="js/main.js"></script>
+    <script>
+        function fillDefaultExample(type) {
+            const examples = getBusinessExamples();
+            if (examples[type]) {
+                document.getElementById('bill').value = examples[type].bill;
+                document.getElementById('kwh').value = examples[type].kwh;
+                document.getElementById('budget').value = examples[type].budget;
+            }
+        }
+    </script>
 </body>
 </html>
