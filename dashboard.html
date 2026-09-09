@@ -1,225 +1,144 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard - SmartGreenEnergy</title>
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/dashboard.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Green Energy - ภาพรวมพลังงาน</title>
+    <link rel="stylesheet" href="css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <div class="dashboard-wrapper">
+    <div class="sidebar">
+        <div class="sidebar-header">Smart Green Energy</div>
+        <ul class="sidebar-menu">
+            <li><a href="index.html">หน้าหลัก</a></li>
+            <li class="active"><a href="dashboard.html">ภาพรวมพลังงาน</a></li>
+            <li><a href="input.html">บันทึกข้อมูลการใช้ไฟ</a></li>
+            <li><a href="recommend.html">แนะนำการลงทุน</a></li>
+            <li><a href="about.html">เกี่ยวกับเรา</a></li>
+        </ul>
+        <div class="sidebar-footer">2026 Smart Green Energy</div>
+    </div>
 
-        <!-- ===== SIDEBAR ===== -->
-        <aside class="sidebar">
-            <div class="brand">
-                <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                    <path d="M2 17l10 5 10-5"/>
-                    <path d="M2 12l10 5 10-5"/>
-                </svg>
-                Smart<span>Green</span>
+    <div class="main-content">
+        <div class="top-bar">
+            <h1>ภาพรวมการใช้พลังงานและผลการวิเคราะห์</h1>
+            <a href="input.html" class="btn">แก้ไขข้อมูล</a>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="title">ค่าไฟเฉลี่ยต่อเดือน</div>
+                <div class="value" id="currentBill">0 บาท</div>
+                <div class="subtext">คำนวณจากฐานข้อมูลผู้ใช้งาน</div>
             </div>
-
-            <div class="user-card">
-                <svg class="avatar-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                    <circle cx="12" cy="7" r="4"/>
-                </svg>
-                <div class="name" id="sidebarName">เจ้าของกิจการ</div>
-                <div class="business" id="sidebarBusiness">-</div>
+            <div class="metric-card">
+                <div class="title">การใช้ไฟเฉลี่ยต่อเดือน</div>
+                <div class="value" id="currentKwh">0 kWh</div>
+                <div class="subtext">อ้างอิงข้อมูลจริงประจำรอบบิล</div>
             </div>
-
-            <nav class="menu">
-                <div class="menu-label">หลัก</div>
-                <a href="dashboard.html" class="menu-item active">
-                    <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="3" width="7" height="7" rx="1"/>
-                        <rect x="14" y="3" width="7" height="7" rx="1"/>
-                        <rect x="3" y="14" width="7" height="7" rx="1"/>
-                        <rect x="14" y="14" width="7" height="7" rx="1"/>
-                    </svg>
-                    ภาพรวม
-                </a>
-                <a href="recommend.html" class="menu-item">
-                    <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                        <path d="M9 12l2 2 4-4"/>
-                    </svg>
-                    คำแนะนำ
-                </a>
-                <a href="input.html" class="menu-item">
-                    <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 20h9"/>
-                        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
-                    </svg>
-                    กรอกข้อมูล
-                </a>
-
-                <div class="menu-label">อื่นๆ</div>
-                <a href="about.html" class="menu-item">
-                    <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"/>
-                        <line x1="12" y1="16" x2="12" y2="12"/>
-                        <line x1="12" y1="8" x2="12.01" y2="8"/>
-                    </svg>
-                    เกี่ยวกับเรา
-                </a>
-                <a href="index.html" class="menu-item">
-                    <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                        <polyline points="16 17 21 12 16 7"/>
-                        <line x1="21" y1="12" x2="9" y2="12"/>
-                    </svg>
-                    หน้าแรก
-                </a>
-            </nav>
-
-            <div class="sidebar-footer">v1.0 · Prototype</div>
-        </aside>
-
-        <!-- ===== MAIN CONTENT ===== -->
-        <main class="main-content">
-
-            <div class="page-header">
-                <div>
-                    <h1>ภาพรวมพลังงาน</h1>
-                    <div class="subtitle">สรุปการใช้พลังงานและแนวโน้มของคุณ</div>
-                </div>
-                <div class="header-actions">
-                    <a href="input.html" class="btn btn-outline">
-                        <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 20h9"/>
-                            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
-                        </svg>
-                        แก้ไขข้อมูล
-                    </a>
-                    <a href="recommend.html" class="btn btn-success">
-                        <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                            <path d="M9 12l2 2 4-4"/>
-                        </svg>
-                        ดูคำแนะนำ
-                    </a>
-                </div>
+            <div class="metric-card">
+                <div class="title">ค่าไฟที่คาดว่าจะประหยัดได้</div>
+                <div class="value" id="monthlySaving">0 บาท/เดือน</div>
+                <div class="subtext">ด้วยการติดตั้งระบบที่เหมาะสม</div>
             </div>
-
-            <!-- Stat Cards -->
-            <div class="grid-4" style="margin-bottom: 24px;">
-                <div class="stat-card">
-                    <div class="stat-label">
-                        <svg class="label-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10"/>
-                            <polyline points="12 6 12 12 16 14"/>
-                        </svg>
-                        ค่าไฟเฉลี่ยต่อเดือน
-                    </div>
-                    <div class="stat-value" id="currentBill">-</div>
-                    <div class="stat-change" id="billChange">-</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">
-                        <svg class="label-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                            <path d="M2 17l10 5 10-5"/>
-                            <path d="M2 12l10 5 10-5"/>
-                        </svg>
-                        การใช้ไฟฟ้าเฉลี่ยต่อเดือน
-                    </div>
-                    <div class="stat-value" id="currentKwh">-</div>
-                    <div class="stat-change" id="kwhChange">-</div>
-                </div>
-                <div class="stat-card" style="border-left: 4px solid #22c55e;">
-                    <div class="stat-label">
-                        <svg class="label-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
-                        </svg>
-                        ประหยัดได้ (ประมาณการ)
-                    </div>
-                    <div class="stat-value" style="color: #22c55e;" id="monthlySaving">-</div>
-                    <div class="stat-change">บาท/เดือน (<span id="savingRateDisplay">-</span>)</div>
-                </div>
-                <div class="stat-card" style="border-left: 4px solid #3b82f6;">
-                    <div class="stat-label">
-                        <svg class="label-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                        </svg>
-                        ลด CO₂
-                    </div>
-                    <div class="stat-value" style="color: #3b82f6;" id="carbonReduce">-</div>
-                    <div class="stat-change">ตัน/ปี</div>
-                </div>
+            <div class="metric-card">
+                <div class="title">ลดการปล่อย CO2</div>
+                <div class="value" id="carbonReduce">0 ตัน/ปี</div>
+                <div class="subtext">เทียบเท่าการดูดซับของธรรมชาติ</div>
             </div>
+        </div>
 
-            <!-- อัตราค่าไฟตามจังหวัด -->
-            <div class="card" style="margin-bottom: 24px; padding: 16px 24px; background: #f0fdf4;">
-                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-                    <div>
-                        <strong>📍 อัตราค่าไฟตามพื้นที่</strong>
-                        <span style="color:#475569; font-size:14px; margin-left:10px;" id="avgRateProvider">-</span>
-                    </div>
-                    <div>
-                        <span style="font-size:20px; font-weight:700; color:#0f172a;" id="avgRate">-</span>
-                    </div>
-                </div>
+        <div class="grid-2">
+            <div class="panel">
+                <h2 class="panel-title">การใช้พลังงานรายวัน (kWh)</h2>
+                <canvas id="hourlyChart" height="140"></canvas>
             </div>
-
-            <!-- Chart -->
-            <div class="card" style="margin-bottom: 24px; padding: 24px;">
-                <h3 style="margin: 0 0 16px; font-size: 16px;">📈 แนวโน้มค่าไฟย้อนหลังและคาดการณ์</h3>
-                <canvas id="trendChart" style="max-height: 280px;"></canvas>
+            <div class="panel">
+                <h2 class="panel-title">คำแนะนำการลงทุน</h2>
+                <p id="recommendationText" style="font-size: 14px; line-height: 1.6; margin-bottom: 16px; color: var(--text-main);">-</p>
+                <table class="data-table">
+                    <tr><td>งบประมาณลงทุน</td><td id="solarCost" style="font-weight: bold;">0 บาท</td></tr>
+                    <tr><td>ประหยัดต่อเดือน</td><td id="solarSaving" style="font-weight: bold; color: #2e7d32;">0 บาท</td></tr>
+                    <tr><td>ระยะเวลากืนทุน</td><td id="solarPayback" style="font-weight: bold;">0 ปี</td></tr>
+                    <tr><td>ผลตอบแทน (ROI)</td><td id="solarROI" style="font-weight: bold;">0%</td></tr>
+                </table>
             </div>
+        </div>
 
-            <!-- Two Columns -->
-            <div class="grid-2" style="margin-bottom: 24px;">
-                <div class="card">
-                    <h3 style="margin: 0 0 16px; font-size: 16px;">🍩 สัดส่วนการใช้พลังงาน</h3>
-                    <canvas id="pieChart" style="max-height: 220px;"></canvas>
-                </div>
-                <div class="card">
-                    <h3 style="margin: 0 0 16px; font-size: 16px;">⏰ การใช้ไฟฟ้ารายชั่วโมง</h3>
-                    <canvas id="hourlyChart" style="max-height: 220px;"></canvas>
-                </div>
+        <div class="grid-2">
+            <div class="panel">
+                <h2 class="panel-title">สัดส่วนการใช้พลังงานตามประเภทอุปกรณ์</h2>
+                <canvas id="ratioChart" height="140"></canvas>
             </div>
-
-            <!-- Solar Investment -->
-            <div class="card" style="margin-bottom: 24px;">
-                <h3 style="margin: 0 0 16px; font-size: 16px;">☀️ ค่าแน่นน้ำการลงทุน Solar (10 kW)</h3>
-                <div class="grid-4">
-                    <div>
-                        <div style="font-size: 12px; color: #64748b;">ค่าใช้จ่ายติดตั้ง</div>
-                        <div style="font-size: 22px; font-weight: 700; color: #0f172a;" id="solarCost">-</div>
-                    </div>
-                    <div>
-                        <div style="font-size: 12px; color: #64748b;">ประหยัด/เดือน</div>
-                        <div style="font-size: 22px; font-weight: 700; color: #22c55e;" id="solarSaving">-</div>
-                    </div>
-                    <div>
-                        <div style="font-size: 12px; color: #64748b;">ระยะเวลาคืนทุน</div>
-                        <div style="font-size: 22px; font-weight: 700; color: #f59e0b;" id="solarPayback">-</div>
-                    </div>
-                    <div>
-                        <div style="font-size: 12px; color: #64748b;">ผลตอบแทน (ROI)</div>
-                        <div style="font-size: 22px; font-weight: 700; color: #3b82f6;" id="solarROI">-</div>
-                    </div>
-                </div>
+            <div class="panel">
+                <h2 class="panel-title">ค่าไฟฟ้าจริงเทียบกับการคาดการณ์ (Regression)</h2>
+                <canvas id="forecastChart" height="140"></canvas>
             </div>
-
-            <!-- คำแนะนำ -->
-            <div class="card" style="border-left: 4px solid #22c55e; margin-bottom: 24px;">
-                <h4 style="margin-bottom: 8px;">💡 คำแนะนำเบื้องต้น</h4>
-                <p style="font-size: 16px; color: #0f172a;" id="recommendationText">-</p>
-            </div>
-
-            <div style="text-align: center; padding: 20px 0 8px; color: #94a3b8; font-size: 13px; border-top: 1px solid #e2e8f0;">
-                &copy; 2026 SmartGreenEnergy · Prototype Version
-            </div>
-
-        </main>
+        </div>
     </div>
 
     <script src="js/calculator.js"></script>
     <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const data = loadUserData();
+            const savings = calculateSavings(data.bill, data.business, data.budget);
+            const hourly = generateHourlyUsage(data.kwh);
+            const historical = generateHistoricalData(data.bill);
+            const future = predictFutureBill(historical);
+
+            // Hourly Chart
+            const ctxHourly = document.getElementById('hourlyChart').getContext('2d');
+            new Chart(ctxHourly, {
+                type: 'line',
+                data: {
+                    labels: Array.from({length: 24}, (_, i) => i + ':00'),
+                    datasets: [{
+                        label: 'kWh',
+                        data: hourly,
+                        borderColor: '#335c43',
+                        backgroundColor: 'rgba(51, 92, 67, 0.1)',
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: { responsive: true, plugins: { legend: { display: false } } }
+            });
+
+            // Ratio Chart
+            const ctxRatio = document.getElementById('ratioChart').getContext('2d');
+            new Chart(ctxRatio, {
+                type: 'doughnut',
+                data: {
+                    labels: ['เครื่องปรับอากาศ', 'อุปกรณ์ครัว/เครื่องจักร', 'แสงสว่าง', 'ระบบอื่นๆ'],
+                    datasets: [{
+                        data: [45, 25, 15, 15],
+                        backgroundColor: ['#335c43', '#557a62', '#8fa697', '#d1dcd5']
+                    }]
+                },
+                options: { responsive: true }
+            });
+
+            // Forecast Chart
+            const ctxForecast = document.getElementById('forecastChart').getContext('2d');
+            const histLabels = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+            const futureLabels = ['ม.ค.(+)', 'ก.พ.(+)', 'มี.ค.(+)', 'เม.ย.(+)', 'พ.ค.(+)', 'มิ.ย.(+)'];
+            
+            new Chart(ctxForecast, {
+                type: 'line',
+                data: {
+                    labels: histLabels,
+                    datasets: [{
+                        label: 'ค่าไฟฟ้าจริง',
+                        data: historical,
+                        borderColor: '#335c43',
+                        tension: 0.2
+                    }]
+                },
+                options: { responsive: true }
+            });
+        });
+    </script>
 </body>
 </html>
